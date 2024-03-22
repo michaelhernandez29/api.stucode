@@ -1,0 +1,32 @@
+name: Build
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        id: sonar
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Notify Slack
+        if: ${{ always() }} # Se ejecutará siempre, independientemente del resultado del paso anterior
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ ${{ steps.sonar.outcome }} == 'failure' ]; then
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"El escaneo de SonarCloud ha fallado."}' $SLACK_WEBHOOK_URL
+          else
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"El escaneo de SonarCloud ha finalizado con éxito."}' $SLACK_WEBHOOK_URL
+          fi
