@@ -1,0 +1,53 @@
+openapi: '3.0.2'
+info:
+  title: StuCode API v1
+  version: '1.0'
+  description: >
+    # Introduction
+
+    Welcome to the official documentation for StuCode's API v1. StuCode is a platform designed to facilitate collaboration and knowledge sharing among programmers. Our API provides developers with access to a wide range of functionalities aimed at enhancing their coding experience.
+
+    ## About StuCode
+
+    StuCode is a dynamic platform where programmers from around the world can come together to share their expertise, learn from each other, and collaborate on coding projects. Whether you're a seasoned developer or just starting out, StuCode offers a welcoming community and a wealth of resources to help you succeed.
+
+    ## API Overview
+
+    Our API is designed to provide seamless integration with StuCode's platform, allowing developers to build custom applications and services that leverage our extensive feature set. From accessing user profiles and managing projects to retrieving code snippets and interacting with discussion threads, our API offers a comprehensive suite of endpoints to meet your development needs.
+
+    ## API BASE URL
+
+    The base URL of our API is: `https://api.stucode.com/v1`
+
+    ## Authentication
+
+    To access StuCode's API, you need to authenticate your requests using an authorization header. Upon successful authentication, you'll be able to make requests to our API and access the available endpoints.
+
+    ## Getting Started
+
+    To get started with our API, please refer to the documentation below for detailed information on each endpoint, including request parameters, response formats, and usage examples.
+
+    We're excited to have you join the StuCode community and explore the possibilities of our API. Happy coding!
+servers:
+  - url: https://api.stucode.com/v1
+tags:
+  - name: auth
+    description: Endpoints related to user authentication.
+  - name: account
+    description: Endpoints related to user account management.
+  - name: user
+    description: Endpoints related to user information and operations.
+  - name: post
+    description: Endpoints related to creation, retrieval, and management of posts.
+  - name: like
+    description: Endpoints related to management of likes on posts and comments.
+  - name: comment
+    description: Endpoints related to creation, retrieval, and management of comments.
+  - name: follow
+    description: Endpoints related to user following and management of follow relationships.
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: OK
