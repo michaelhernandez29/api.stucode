@@ -1,6 +1,6 @@
-import bunyan from 'bunyan';
+const bunyan = require('bunyan');
 
-import config from '../config/index.js';
+const config = require('../config/index.js');
 
 const logger = bunyan.createLogger({
   name: config.get('bunyan.name'),
@@ -8,4 +8,4 @@ const logger = bunyan.createLogger({
   serializers: bunyan.stdSerializers,
 });
 
-export default logger;
+module.exports = logger;

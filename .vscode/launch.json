@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "API",
-      "program": "${workspaceFolder}/api.js",
+      "program": "${workspaceFolder}/src/api.js",
       "runtimeArgs": [
         "--inspect=9229"
       ]

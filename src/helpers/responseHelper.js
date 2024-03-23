@@ -1,7 +1,7 @@
-import _ from 'lodash-es';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+const _ = require('lodash');
+const { ReasonPhrases, StatusCodes } = require('http-status-codes');
 
-import errorCodes from '../constants/errorCodes';
+const errorCodes = require('../constants/errorCodes.js');
 
 const responseHelper = {};
 
@@ -148,4 +148,4 @@ responseHelper.notFound = notFound;
 responseHelper.conflict = conflict;
 responseHelper.error = error;
 
-export default responseHelper;
+module.exports = responseHelper;

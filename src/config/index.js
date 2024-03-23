@@ -1,4 +1,4 @@
-import convict from 'convict';
+const convict = require('convict');
 
 const config = convict({
   env: {
@@ -39,8 +39,28 @@ const config = convict({
       env: 'CRYPTO_EXPIRESIN',
     },
   },
+  sequelize: {
+    database: {
+      doc: 'The name of the database',
+      format: '*',
+      default: 'stucode',
+      env: 'SEQUELIZE_DATABASE',
+    },
+    username: {
+      doc: 'The username of the database',
+      format: '*',
+      default: 'stucode',
+      env: 'SEQUELIZE_USERNAME',
+    },
+    password: {
+      doc: 'The password of the database',
+      format: '*',
+      default: 'stucode',
+      env: 'SEQUELIZE_PASSWORD',
+    },
+  },
 });
 
 config.validate({ allowed: 'strict' });
 
-export default config;
+module.exports = config;

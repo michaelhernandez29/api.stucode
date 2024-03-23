@@ -29,6 +29,7 @@ info:
 
     We're excited to have you join the StuCode community and explore the possibilities of our API. Happy coding!
 servers:
+  - url: /v1
   - url: https://api.stucode.com/v1
 tags:
   - name: auth
@@ -46,8 +47,38 @@ tags:
   - name: follow
     description: Endpoints related to user following and management of follow relationships.
 paths:
-  /test:
-    get:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register a new user
+      description: |
+        This endpoint allows users to register within the system by providing necessary registration details in the request body. Upon successful registration, users gain access to the platform's features and services.
+      x-eov-operation-handler: authController
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The user's name.
+                  example: John Doe
+                email:
+                  type: string
+                  description: The user's email address.
+                  example: john@example.com
+                password:
+                  type: string
+                  description: The user's chosen password.
+                  example: mySecretPassword123
+              required:
+                - email
+                - password
+              additionalProperties: false
       responses:
         '200':
           description: OK

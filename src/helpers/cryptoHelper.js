@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-import config from '../config';
+const config = require('../config');
 
 const cryptoHelper = {};
 
@@ -51,4 +51,4 @@ cryptoHelper.comparePasswords = comparePasswords;
 cryptoHelper.sign = sign;
 cryptoHelper.verify = verify;
 
-export default cryptoHelper;
+module.exports = cryptoHelper;
