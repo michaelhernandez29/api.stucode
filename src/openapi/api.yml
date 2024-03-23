@@ -80,5 +80,49 @@ paths:
                 - password
               additionalProperties: false
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The user's id.
+        name:
+          type: string
+          description: The user's name.
+          example: John Doe
+        email:
+          type: string
+          description: The user's email address.
+          example: john@example.com
+        accountId:
+          type: string
+          description: The account's id.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date the user was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The date the user was last updated.
+        logo:
+          type: string
+          description: The user's logo URL.
+      required:
+        - id
+        - name
+        - email
+        - accountId
+        - createdAt
+        - updatedAt
+        - logo
+      additionalProperties: false
