@@ -21,6 +21,24 @@ const config = convict({
       env: 'BUNYAN_NAME',
     },
   },
+  cryto: {
+    saltRounds: {
+      doc: 'The number of salt rounds for cryptography',
+      format: 'int',
+      default: 10,
+      env: 'CRYPTO_SALTROUNDS',
+    },
+    privateKey: {
+      doc: 'The private key for cryptography',
+      format: '*',
+      env: 'CRYPTO_PRIVATEKEY',
+    },
+    expiresIn: {
+      doc: 'The expiration time for cryptographic',
+      format: '*',
+      env: 'CRYPTO_EXPIRESIN',
+    },
+  },
 });
 
 config.validate({ allowed: 'strict' });
