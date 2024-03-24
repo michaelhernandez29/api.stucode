@@ -4,6 +4,7 @@ module.exports = {
   PASSWORD_NOT_VALID: 'The password is not valid',
 
   // 404 NOT_FOUND
+  ACCOUNT_NOT_FOUND: 'ACCOUNT_NOT_FOUND',
   USER_NOT_FOUND: 'USER_NOT_FOUND',
 
   // 409 CONFLICT

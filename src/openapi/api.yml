@@ -125,6 +125,29 @@ paths:
                   token:
                     type: string
                     description: The authentication token generated upon successful login.
+  /account/{id}:
+    get:
+      tags:
+        - account
+      summary: Retrieve account details
+      description: |
+        This endpoint is used to retrieve specific details of an account using its ID.
+      x-eov-operation-handler: accountController
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          description: The account's id.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
 
 components:
   schemas:
@@ -164,4 +187,26 @@ components:
         - createdAt
         - updatedAt
         - logo
+      additionalProperties: false
+    Account:
+      properties:
+        id:
+          type: string
+          description: The account's id.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date the account was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The date the account was last updated.
+        enabled:
+          type: boolean
+          description: Whether the account is enabled or not.
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - enabled
       additionalProperties: false
