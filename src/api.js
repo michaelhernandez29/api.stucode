@@ -31,3 +31,5 @@ const PORT = config.get('port');
 app.listen(PORT, () => {
   logger.info({ message: `Server listening on port ${PORT}` });
 });
+
+module.exports = app;

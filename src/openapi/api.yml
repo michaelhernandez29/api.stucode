@@ -166,6 +166,29 @@ paths:
       responses:
         200:
           description: Ok
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: Retrieve user details
+      description: |
+        This endpoint is used to retrieve specific details of a user using its ID.
+      x-eov-operation-handler: userController
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          description: The user's id.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
 components:
   schemas:
