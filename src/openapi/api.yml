@@ -80,12 +80,51 @@ paths:
                 - password
               additionalProperties: false
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: User authentication
+      description: |
+        This endpoint is used for user authentication. It allows users to log in by providing their email address and password. Upon successful authentication, the user will receive an authentication token.
+      x-eov-operation-handler: authController
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The user's email address.
+                  example: john@example.com
+                password:
+                  type: string
+                  description: The user's chosen password.
+                  example: mySecretPassword123
+              required:
+                - email
+                - password
+              additionalProperties: false
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: The authentication token generated upon successful login.
 
 components:
   schemas:

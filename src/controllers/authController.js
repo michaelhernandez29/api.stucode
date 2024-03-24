@@ -35,6 +35,38 @@ const register = async (req, res) => {
   responseHelper.created(res, response);
 };
 
+/**
+ * Handler for POST /auth/login
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const login = async (req, res) => {
+  const payload = req.body;
+
+  if (!isEmail.validate(payload.email)) {
+    responseHelper.badRequest(res, errorMessages.EMAIL_FORMAT_NOT_VALID);
+    return;
+  }
+
+  let user = await userService.findByEmail(payload.email);
+  if (!user) {
+    responseHelper.notFound(res, errorMessages.USER_NOT_FOUND);
+    return;
+  }
+
+  const isPasswordCorrect = await cryptoHelper.comparePasswords(payload.password, user.password);
+  if (!isPasswordCorrect) {
+    responseHelper.badRequest(res, errorMessages.PASSWORD_NOT_VALID);
+    return;
+  }
+
+  user = _.omit(user, 'password');
+  const response = await cryptoHelper.sign(user);
+
+  responseHelper.ok(res, response);
+};
+
 authController.register = register;
+authController.login = login;
 
 module.exports = authController;

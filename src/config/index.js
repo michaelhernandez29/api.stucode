@@ -1,4 +1,5 @@
 const convict = require('convict');
+require('dotenv').config();
 
 const config = convict({
   env: {
@@ -31,11 +32,13 @@ const config = convict({
     privateKey: {
       doc: 'The private key for cryptography',
       format: '*',
+      default: 'syVCqt8Hg4H6iYe2',
       env: 'CRYPTO_PRIVATEKEY',
     },
     expiresIn: {
       doc: 'The expiration time for cryptographic',
       format: '*',
+      default: '7d',
       env: 'CRYPTO_EXPIRESIN',
     },
   },
