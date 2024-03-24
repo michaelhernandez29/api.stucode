@@ -148,6 +148,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Account'
+    delete:
+      tags:
+        - account
+      summary: Delete an account by ID
+      description: |
+        This endpoint is used to delete an account by its ID. It removes the specified account from the system permanently. This action cannot be undone, so use it with caution.
+      x-eov-operation-handler: accountController
+      operationId: deleteById
+      parameters:
+        - name: id
+          in: path
+          description: The account's id.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
 
 components:
   schemas:
