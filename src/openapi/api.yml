@@ -189,6 +189,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - user
+      summary: Update user details
+      description: |
+        This endpoint is used to update specific details of a user using its ID.
+      x-eov-operation-handler: userController
+      operationId: updateById
+      parameters:
+        - name: id
+          in: path
+          description: The user's id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The user's name.
+                  example: John Doe
+                logo:
+                  type: string
+                  description: The user's logo URL.
+              additionalProperties: false
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
 components:
   schemas:
