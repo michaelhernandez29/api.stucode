@@ -7,7 +7,7 @@ const userService = require('../services/userService');
 const userController = {};
 
 /**
- * Handler for GET /account/{id}
+ * Handler for GET /user/{id}
  * @param {Request} req - The request object.
  * @param {Response} res - The response object.
  */
