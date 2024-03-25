@@ -266,6 +266,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Article'
+    get:
+      tags:
+        - article
+      x-eov-operation-handler: articleController
+      operationId: findAll
+      responses:
+        200:
+          description: Ok
 
 components:
   schemas:

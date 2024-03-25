@@ -24,6 +24,18 @@ const create = async (req, res) => {
   responseHelper.created(res, response);
 };
 
+/**
+ * Handler for GET /article
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const findAll = async (req, res) => {
+  const articles = await articleService.findAll();
+
+  responseHelper.ok(res, articles);
+};
+
 articleController.create = create;
+articleController.findAll = findAll;
 
 module.exports = articleController;

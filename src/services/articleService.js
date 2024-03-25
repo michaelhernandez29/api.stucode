@@ -12,6 +12,15 @@ const create = async (data) => {
   return newArticle.get({ plain: true });
 };
 
+/**
+ * Finds all articles.
+ * @returns {Promise<Array<Object>>} A promise that resolves to an array of articles.
+ */
+const findAll = async () => {
+  return article.findAll();
+};
+
 articleService.create = create;
+articleService.findAll = findAll;
 
 module.exports = articleService;
