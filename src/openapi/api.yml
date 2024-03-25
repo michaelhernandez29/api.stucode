@@ -38,8 +38,8 @@ tags:
     description: Endpoints related to user account management.
   - name: user
     description: Endpoints related to user information and operations.
-  - name: post
-    description: Endpoints related to creation, retrieval, and management of posts.
+  - name: article
+    description: Endpoints related to creation, retrieval, and management of articles.
   - name: like
     description: Endpoints related to management of likes on posts and comments.
   - name: comment
@@ -226,6 +226,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /article:
+    post:
+      tags:
+        - article
+      summary: Create a new article.
+      description: |
+        Endpoint to create a new article. Requires the user's ID, article image, title, and content in the request body in JSON format. The user's ID must be in UUID format. Upon successful creation, the endpoint returns the details of the created article.
+      x-eov-operation-handler: articleController
+      operationId: create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: The user's Id.
+                image:
+                  type: string
+                  description: The article's image.
+                title:
+                  type: string
+                  description: The article's title.
+                content:
+                  type: string
+                  description: The article's content.
+              required:
+                - userId
+                - title
+                - content
+              additionalProperties: false
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
 
 components:
   schemas:
@@ -287,4 +327,38 @@ components:
         - createdAt
         - updatedAt
         - enabled
+      additionalProperties: false
+    Article:
+      properties:
+        id:
+          type: string
+          description: The account's id.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date the account was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The date the account was last updated.
+        userId:
+          type: string
+          description: The user's id.
+        image:
+          type: string
+          description: The article's image.
+        title:
+          type: string
+          description: The article's title.
+        content:
+          type: string
+          description: The article's content.
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - userId
+        - image
+        - title
+        - content
       additionalProperties: false

@@ -10,7 +10,8 @@
     "prepare": "husky",
     "pre-commit": "eslint . && lint-staged",
     "lint": "eslint --fix 'src/**/*.{js,ts,tsx}'",
-    "start:local": "nodemon -r dotenv/config src/api.js"
+    "start:local": "nodemon -r dotenv/config src/api.js",
+    "start": "node -r dotenv/config src/api.js"
   },
   "lint-staged": {
     "*.js": [
