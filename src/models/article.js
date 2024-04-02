@@ -53,7 +53,7 @@ const article = db.define(
     timestamps: true,
     underscored: false,
     tableName: 'articles',
-  }
+  },
 );
 
 article.belongsTo(user, { foreignKey: 'userId' });

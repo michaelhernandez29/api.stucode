@@ -23,7 +23,7 @@ app.use(
   OpenApiValidator.middleware({
     apiSpec: __dirname + '/openapi/api.yml',
     operationHandlers: __dirname + '/controllers',
-  })
+  }),
 );
 
 const PORT = config.get('port');

@@ -59,7 +59,7 @@ const user = db.define(
     timestamps: true,
     underscored: false,
     tableName: 'users',
-  }
+  },
 );
 
 user.belongsTo(account, { foreignKey: 'accountId' });

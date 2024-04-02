@@ -33,7 +33,7 @@ const account = db.define(
     timestamps: true,
     underscored: false,
     tableName: 'accounts',
-  }
+  },
 );
 
 module.exports = account;
