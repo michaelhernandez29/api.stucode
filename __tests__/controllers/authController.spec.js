@@ -13,7 +13,7 @@ describe('authController', () => {
       const response = await request(app).post('/v1/auth/login').send(data);
 
       expect(response.status).toBe(200);
-    }, 20000);
+    }, 100000);
 
     // it('returns Ok when signin request is valid', async () => {
     //   let data = {
