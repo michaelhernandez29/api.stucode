@@ -9,9 +9,6 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const OpenApiValidator = require('express-openapi-validator');
 
-const config = require('./config/index.js');
-const logger = require('./helpers/logger.js');
-
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
@@ -25,11 +22,5 @@ app.use(
     operationHandlers: __dirname + '/controllers',
   }),
 );
-
-const PORT = config.get('port');
-
-app.listen(PORT, () => {
-  logger.info({ message: `Server listening on port ${PORT}` });
-});
 
 module.exports = app;

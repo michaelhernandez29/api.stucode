@@ -27,7 +27,11 @@ const findByEmail = async (email) => {
  * @returns {Promise<Object|null>} A promise that resolves to the updated user object or null if not found.
  */
 const updateById = async (id, data) => {
-  const updateUser = await user.update(data, { where: { id }, returning: true, raw: true });
+  const updateUser = await user.update(data, {
+    where: { id },
+    returning: true,
+    raw: true,
+  });
   return updateUser[1][0];
 };
 

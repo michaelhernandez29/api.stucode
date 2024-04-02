@@ -4,7 +4,7 @@ require('dotenv').config();
 const config = convict({
   env: {
     doc: 'The application environment',
-    format: ['production', 'local'],
+    format: ['production', 'test', 'local'],
     default: 'local',
     env: 'NODE_ENV',
   },
