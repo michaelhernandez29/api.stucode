@@ -30,7 +30,9 @@ jobs:
         run: npm install
       - name: Run Tests
         run: npm test
-
+        env:
+          CI: true
+        timeout-minutes: 5
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
