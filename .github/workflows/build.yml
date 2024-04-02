@@ -1,4 +1,5 @@
 name: Build
+
 on:
   push:
     branches:
@@ -21,31 +22,35 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: '18' # Adjust the Node.js version as needed
+          node-version: 18
+
       - name: Install dependencies
         run: npm install
+
       - name: Run Tests
         run: npm test
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: SonarCloud Scan
-        id: sonar
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        uses: SonarSource/sonarcloud-github-action@v1
+        with:
+          token: ${{ secrets.SONAR_TOKEN }}
+
       - name: Notify Slack
-        if: ${{ always() }} # Se ejecutará siempre, independientemente del resultado del paso anterior
+        if: ${{ always() }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
