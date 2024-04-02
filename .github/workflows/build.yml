@@ -16,9 +16,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          SEQUELIZE_DATABASE: stucode
-          SEQUELIZE_USERNAME: stucode
-          SEQUELIZE_PASSWORD: stucode
+          POSTGRES_DB: stucode
+          POSTGRES_USER: stucode
+          POSTGRES_PASSWORD: stucode
         ports:
           - 5432:5432
     steps:

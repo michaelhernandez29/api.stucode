@@ -47,19 +47,19 @@ const config = convict({
       doc: 'The name of the database',
       format: '*',
       default: 'stucode',
-      env: 'SEQUELIZE_DATABASE',
+      env: 'POSTGRES_DB',
     },
     username: {
       doc: 'The username of the database',
       format: '*',
       default: 'stucode',
-      env: 'SEQUELIZE_USERNAME',
+      env: 'POSTGRES_USER',
     },
     password: {
       doc: 'The password of the database',
       format: '*',
       default: 'stucode',
-      env: 'SEQUELIZE_PASSWORD',
+      env: 'POSTGRES_PASSWORD',
     },
   },
 });
