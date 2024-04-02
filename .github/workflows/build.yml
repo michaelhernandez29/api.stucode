@@ -6,16 +6,31 @@ on:
       - master
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: stucode
+          POSTGRES_USER: stucode
+          POSTGRES_PASSWORD: stucode
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' # Adjust the Node.js version as needed
       - name: Install dependencies
         run: npm install
       - name: Run Tests
         run: npm test
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
