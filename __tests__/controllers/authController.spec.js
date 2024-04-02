@@ -4,6 +4,10 @@ const app = require('../../src/api');
 const db = require('../../src/lib/db');
 
 describe('authController', () => {
+  beforeAll(async () => {
+    await db.authenticate();
+  });
+
   afterAll(async () => {
     await db.close();
   });
