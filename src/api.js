@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const OpenApiValidator = require('express-openapi-validator');
+const authHandler = require('./middlewares/authHandler');
 
 app.use(cors());
 app.use(helmet());
@@ -20,6 +21,11 @@ app.use(
   OpenApiValidator.middleware({
     apiSpec: __dirname + '/openapi/api.yml',
     operationHandlers: __dirname + '/controllers',
+    validateSecurity: {
+      handlers: {
+        bearerAuth: authHandler,
+      },
+    },
   }),
 );
 
