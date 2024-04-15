@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 
 const db = require('../lib/db.js');
-const account = require('./account.js');
 
 const user = db.define(
   'user',
@@ -22,16 +21,6 @@ const user = db.define(
       type: DataTypes.DATE,
       allowNull: false,
       field: 'updated_at',
-    },
-    accountId: {
-      type: DataTypes.UUIDV4,
-      allowNull: false,
-      references: {
-        model: account,
-        key: 'id',
-      },
-      onDelete: 'cascade',
-      field: 'account_id',
     },
     name: {
       type: DataTypes.STRING,
@@ -61,7 +50,5 @@ const user = db.define(
     tableName: 'users',
   },
 );
-
-user.belongsTo(account, { foreignKey: 'accountId' });
 
 module.exports = user;

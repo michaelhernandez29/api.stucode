@@ -34,8 +34,6 @@ servers:
 tags:
   - name: auth
     description: Endpoints related to user authentication.
-  - name: account
-    description: Endpoints related to user account management.
   - name: user
     description: Endpoints related to user information and operations.
   - name: article
@@ -125,51 +123,12 @@ paths:
                   token:
                     type: string
                     description: The authentication token generated upon successful login.
-  /account/{id}:
-    get:
-      tags:
-        - account
-      summary: Retrieve account details
-      description: |
-        This endpoint is used to retrieve specific details of an account using its ID.
-      x-eov-operation-handler: accountController
-      operationId: findById
-      parameters:
-        - name: id
-          in: path
-          description: The account's id.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Account'
-    delete:
-      tags:
-        - account
-      summary: Delete an account by ID
-      description: |
-        This endpoint is used to delete an account by its ID. It removes the specified account from the system permanently. This action cannot be undone, so use it with caution.
-      x-eov-operation-handler: accountController
-      operationId: deleteById
-      parameters:
-        - name: id
-          in: path
-          description: The account's id.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Ok
   /user/{id}:
     get:
       tags:
         - user
+      security:
+        - bearerAuth: []
       summary: Retrieve user details
       description: |
         This endpoint is used to retrieve specific details of a user using its ID.
@@ -192,6 +151,8 @@ paths:
     put:
       tags:
         - user
+      security:
+        - bearerAuth: []
       summary: Update user details
       description: |
         This endpoint is used to update specific details of a user using its ID.
@@ -230,6 +191,8 @@ paths:
     post:
       tags:
         - article
+      security:
+        - bearerAuth: []
       summary: Create a new article.
       description: |
         Endpoint to create a new article. Requires the user's ID, article image, title, and content in the request body in JSON format. The user's ID must be in UUID format. Upon successful creation, the endpoint returns the details of the created article.
@@ -269,6 +232,8 @@ paths:
     get:
       tags:
         - article
+      security:
+        - bearerAuth: []
       x-eov-operation-handler: articleController
       operationId: findAll
       responses:
@@ -291,9 +256,6 @@ components:
           type: string
           description: The user's email address.
           example: john@example.com
-        accountId:
-          type: string
-          description: The account's id.
         createdAt:
           type: string
           format: date-time
@@ -313,28 +275,6 @@ components:
         - createdAt
         - updatedAt
         - logo
-      additionalProperties: false
-    Account:
-      properties:
-        id:
-          type: string
-          description: The account's id.
-        createdAt:
-          type: string
-          format: date-time
-          description: The date the account was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The date the account was last updated.
-        enabled:
-          type: boolean
-          description: Whether the account is enabled or not.
-      required:
-        - id
-        - createdAt
-        - updatedAt
-        - enabled
       additionalProperties: false
     Article:
       properties:
@@ -370,3 +310,9 @@ components:
         - title
         - content
       additionalProperties: false
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
