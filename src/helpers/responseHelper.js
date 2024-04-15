@@ -139,6 +139,23 @@ const error = (res, message = ReasonPhrases.INTERNAL_SERVER_ERROR, errorCode = e
   res.status(response.statusCode).json(response);
 };
 
+/**
+ * Sends a custom error response.
+ * @param {Response} res - The response object.
+ * @param {number} status - The HTTP status code.
+ * @param {String} message - The error message.
+ * @param {String} errorCode - The error code.
+ */
+const custom = (res, status, message, errorCode) => {
+  const response = {
+    statusCode: status,
+    message,
+    errorCode,
+  };
+
+  res.status(response.statusCode).json(response);
+};
+
 responseHelper.ok = ok;
 responseHelper.created = created;
 responseHelper.forbidden = forbidden;
@@ -147,5 +164,6 @@ responseHelper.unAuthorized = unAuthorized;
 responseHelper.notFound = notFound;
 responseHelper.conflict = conflict;
 responseHelper.error = error;
+responseHelper.custom = custom;
 
 module.exports = responseHelper;

@@ -8,7 +8,9 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const OpenApiValidator = require('express-openapi-validator');
+
 const authHandler = require('./middlewares/authHandler');
+const errorHandler = require('./middlewares/errorHandler');
 
 app.use(cors());
 app.use(helmet());
@@ -28,5 +30,7 @@ app.use(
     },
   }),
 );
+
+app.use(errorHandler);
 
 module.exports = app;
