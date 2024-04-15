@@ -5,7 +5,6 @@ const errorMessages = require('../constants/errorMessages.js');
 const cryptoHelper = require('../helpers/cryptoHelper.js');
 const responseHelper = require('../helpers/responseHelper.js');
 const userService = require('../services/userService.js');
-const authService = require('../services/authService.js');
 
 const authController = {};
 
@@ -29,7 +28,7 @@ const register = async (req, res) => {
   }
 
   payload.password = await cryptoHelper.hash(payload.password);
-  let response = await authService.createUserWithAssociatedAccount(payload);
+  let response = await userService.createUser(payload);
   response = _.omit(response, 'password');
 
   responseHelper.created(res, response);

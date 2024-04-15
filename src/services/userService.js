@@ -3,6 +3,16 @@ const user = require('../models/user.js');
 const userService = {};
 
 /**
+ * Creates a new user.
+ * @param {Object} data - The data for creating the user.
+ * @returns {Promise<Object>} A promise that resolves to the created user data.
+ */
+const createUser = async (data) => {
+  const newUser = await user.create(data);
+  return newUser.get({ plain: true });
+};
+
+/**
  * Finds a user by id.
  * @param {String} id - The id of the user to find.
  * @returns {Promise<Object|null>} A promise that resolves to the found user object or null if not found.
@@ -35,6 +45,7 @@ const updateById = async (id, data) => {
   return updateUser[1][0];
 };
 
+userService.createUser = createUser;
 userService.findById = findById;
 userService.findByEmail = findByEmail;
 userService.updateById = updateById;
