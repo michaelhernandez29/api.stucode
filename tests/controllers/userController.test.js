@@ -49,5 +49,18 @@ describe('userController', () => {
       expect(response.status).toBe(401);
       expect(response.body.statusCode).toBe(401);
     });
+
+    it('returns 404 when user request is not found', async () => {
+      const response = await request(app)
+        .get(`/v1/user/7e260ebd-7a78-4584-bb97-d4bb650bc011`)
+        .set({
+          Authorization: `Bearer ${login.body.data}`,
+        });
+
+      expect(response.status).toBe(404);
+      expect(response.body.statusCode).toBe(404);
+      expect(response.body.message).toBe('The user does not exist');
+      expect(response.body.errorCode).toBe('NOT_FOUND');
+    });
   });
 });
