@@ -20,6 +20,33 @@ describe('userController', () => {
     await db.close();
   });
 
+  describe('GET /v1/user', () => {
+    it('returns 200 when request is valid', async () => {
+      const response = await request(app)
+        .get(`/v1/user`)
+        .set({
+          Authorization: `Bearer ${login.body.data}`,
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.statusCode).toBe(200);
+      expect(response.body.message).toEqual('OK');
+      expect(response.body).toHaveProperty('data');
+      expect(typeof response.body.data).toBe('object');
+      expect(response.body.data.length).toBeLessThanOrEqual(20);
+      expect(response.body).toHaveProperty('count');
+    });
+
+    it('returns 401 when request is unauthorized', async () => {
+      const response = await request(app).get(`/v1/user`).set({
+        Authorization: `Bearer test`,
+      });
+
+      expect(response.status).toBe(401);
+      expect(response.body.statusCode).toBe(401);
+    });
+  });
+
   describe('GET /v1/user/{id}', () => {
     it('returns 200 when request is valid', async () => {
       const response = await request(app)
@@ -113,33 +140,6 @@ describe('userController', () => {
       expect(response.body.statusCode).toBe(404);
       expect(response.body.message).toBe('The user does not exist');
       expect(response.body.errorCode).toBe('NOT_FOUND');
-    });
-  });
-
-  describe('GET /v1/user', () => {
-    it('returns 200 when request is valid', async () => {
-      const response = await request(app)
-        .get(`/v1/user`)
-        .set({
-          Authorization: `Bearer ${login.body.data}`,
-        });
-
-      expect(response.status).toBe(200);
-      expect(response.body.statusCode).toBe(200);
-      expect(response.body.message).toEqual('OK');
-      expect(response.body).toHaveProperty('data');
-      expect(typeof response.body.data).toBe('object');
-      expect(response.body.data.length).toBeLessThanOrEqual(20);
-      expect(response.body).toHaveProperty('count');
-    });
-
-    it('returns 401 when request is unauthorized', async () => {
-      const response = await request(app).get(`/v1/user`).set({
-        Authorization: `Bearer test`,
-      });
-
-      expect(response.status).toBe(401);
-      expect(response.body.statusCode).toBe(401);
     });
   });
 });
