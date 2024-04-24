@@ -66,6 +66,20 @@ const login = async (req, res) => {
 };
 
 /**
+ * Handler for GET /user
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const findAll = async (req, res) => {
+  const filters = req.query;
+
+  let response = await userService.findAllWithCount(filters);
+  response.users = response.users.map((user) => _.omit(user, 'password'));
+
+  responseHelper.ok(res, response.users, response.count);
+};
+
+/**
  * Handler for GET /user/{id}
  * @param {Request} req - The request object.
  * @param {Response} res - The response object.
@@ -106,6 +120,7 @@ const updateById = async (req, res) => {
 
 userController.register = register;
 userController.login = login;
+userController.findAll = findAll;
 userController.findById = findById;
 userController.updateById = updateById;
 

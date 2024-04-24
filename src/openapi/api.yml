@@ -121,6 +121,63 @@ paths:
                   token:
                     type: string
                     description: The authentication token generated upon successful login.
+  /user:
+    get:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Retrieve a list of users
+      description: |
+        This endpoint allows retrieving a list of users from the system.
+      x-eov-operation-handler: userController
+      operationId: findAll
+      parameters:
+        - name: page
+          in: query
+          description: The page number for pagination.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: limit
+          in: query
+          description: The limit of results per page.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 20
+        - name: find
+          in: query
+          description: A search term to filter results.
+          required: false
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: >
+            Order of the results: 
+              
+              - a-z - Order by name ascending. From A to Z
+              - z-a - Order by name descending. From Z to A
+          required: false
+          schema:
+            type: string
+            enum:
+              - a-z
+              - z-a
+            default: a-z
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
   /user/{id}:
     get:
       tags:

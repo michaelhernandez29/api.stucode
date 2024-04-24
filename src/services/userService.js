@@ -1,3 +1,6 @@
+const { Op } = require('sequelize');
+const _ = require('lodash');
+
 const user = require('../models/user.js');
 
 const userService = {};
@@ -10,6 +13,43 @@ const userService = {};
 const createUser = async (data) => {
   const newUser = await user.create(data);
   return newUser.get({ plain: true });
+};
+
+/**
+ * Finds users with pagination and optional filtering.
+ * @param {Object} filters - Filters for querying users.
+ * @param {Number} filters.page - The page number for pagination.
+ * @param {Number} filters.limit - The limit of results per page.
+ * @param {String} filters.find - A search term to filter results.
+ * @param {String} filters.orderBy - The order of the results. Possible values: 'a-z', 'z-a'.
+ * @returns {Promise<Object>} A promise that resolves to an object containing count and users array.
+ */
+const findAllWithCount = async (filters) => {
+  const offset = filters.page * filters.limit;
+  let orderQuery = filters.orderBy === 'a-z' ? [['name', 'asc']] : [['name', 'desc']];
+  let where = {};
+
+  if (!_.isNil(filters.find)) {
+    const str = `%${filters.find}%`;
+    const fields = {
+      name: { [Op.iLike]: str },
+      email: { [Op.iLike]: str },
+    };
+    where[Op.or] = fields;
+  }
+
+  const response = await user.findAndCountAll({
+    where,
+    limit: filters.limit,
+    offset,
+    order: orderQuery,
+    raw: true,
+  });
+
+  return {
+    count: response.count ?? 0,
+    users: response.rows ?? [],
+  };
 };
 
 /**
@@ -46,6 +86,7 @@ const updateById = async (id, data) => {
 };
 
 userService.createUser = createUser;
+userService.findAllWithCount = findAllWithCount;
 userService.findById = findById;
 userService.findByEmail = findByEmail;
 userService.updateById = updateById;
