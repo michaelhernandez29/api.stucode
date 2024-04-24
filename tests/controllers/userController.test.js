@@ -63,4 +63,56 @@ describe('userController', () => {
       expect(response.body.errorCode).toBe('NOT_FOUND');
     });
   });
+
+  describe('PUT /v1/user/{id}', () => {
+    const data = {
+      name: 'John Doe',
+      logo: 'string',
+    };
+
+    it('returns 200 when request is valid', async () => {
+      const response = await request(app)
+        .put(`/v1/user/${id}`)
+        .send(data)
+        .set({
+          Authorization: `Bearer ${login.body.data}`,
+        });
+
+      expect(response.status).toBe(200);
+      expect(response.body.statusCode).toBe(200);
+      expect(response.body.message).toEqual('OK');
+      expect(typeof response.body.data).toBe('object');
+      expect(response.body.data).toHaveProperty('id');
+      expect(response.body.data.id).toEqual(id);
+      expect(response.body.data).toHaveProperty('createdAt');
+      expect(response.body.data).toHaveProperty('updatedAt');
+      expect(response.body.data).toHaveProperty('name');
+      expect(response.body.data.name).toEqual('John Doe');
+      expect(response.body.data).toHaveProperty('email');
+      expect(response.body.data).toHaveProperty('logo');
+    });
+
+    it('returns 401 when request is unauthorized', async () => {
+      const response = await request(app).put(`/v1/user/${id}`).send(data).set({
+        Authorization: `Bearer test`,
+      });
+
+      expect(response.status).toBe(401);
+      expect(response.body.statusCode).toBe(401);
+    });
+
+    it('returns 404 when user request is not found', async () => {
+      const response = await request(app)
+        .put(`/v1/user/7e260ebd-7a78-4584-bb97-d4bb650bc011`)
+        .send(data)
+        .set({
+          Authorization: `Bearer ${login.body.data}`,
+        });
+
+      expect(response.status).toBe(404);
+      expect(response.body.statusCode).toBe(404);
+      expect(response.body.message).toBe('The user does not exist');
+      expect(response.body.errorCode).toBe('NOT_FOUND');
+    });
+  });
 });
