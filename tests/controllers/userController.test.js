@@ -12,7 +12,7 @@ describe('userController', () => {
   };
 
   beforeAll(async () => {
-    login = await request(app).post('/v1/auth/login').send(data);
+    login = await request(app).post('/v1/user/login').send(data);
     await db.authenticate();
   });
 
