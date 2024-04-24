@@ -32,8 +32,6 @@ servers:
   - url: /v1
   - url: https://api.stucode.com/v1
 tags:
-  - name: auth
-    description: Endpoints related to user authentication.
   - name: user
     description: Endpoints related to user information and operations.
   - name: article
@@ -45,14 +43,14 @@ tags:
   - name: follow
     description: Endpoints related to user following and management of follow relationships.
 paths:
-  /auth/register:
+  /user/register:
     post:
       tags:
-        - auth
+        - user
       summary: Register a new user
       description: |
         This endpoint allows users to register within the system by providing necessary registration details in the request body. Upon successful registration, users gain access to the platform's features and services.
-      x-eov-operation-handler: authController
+      x-eov-operation-handler: userController
       operationId: register
       requestBody:
         required: true
@@ -84,14 +82,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-  /auth/login:
+  /user/login:
     post:
       tags:
-        - auth
+        - user
       summary: User authentication
       description: |
         This endpoint is used for user authentication. It allows users to log in by providing their email address and password. Upon successful authentication, the user will receive an authentication token.
-      x-eov-operation-handler: authController
+      x-eov-operation-handler: userController
       operationId: login
       requestBody:
         required: true
