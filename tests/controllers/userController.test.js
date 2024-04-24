@@ -40,5 +40,14 @@ describe('userController', () => {
       expect(response.body.data).toHaveProperty('email');
       expect(response.body.data).toHaveProperty('logo');
     });
+
+    it('returns 401 when request is unauthorized', async () => {
+      const response = await request(app).get(`/v1/user/${id}`).set({
+        Authorization: `Bearer test`,
+      });
+
+      expect(response.status).toBe(401);
+      expect(response.body.statusCode).toBe(401);
+    });
   });
 });
