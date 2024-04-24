@@ -1,0 +1,8 @@
+{
+  "moduleFileExtensions": [
+    "js"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".test.js$"
+}
