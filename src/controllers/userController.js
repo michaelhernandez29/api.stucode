@@ -118,10 +118,30 @@ const updateById = async (req, res) => {
   responseHelper.ok(res, response);
 };
 
+/**
+ * Handler for DELETE /user/{id}
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const deleteById = async (req, res) => {
+  const id = req.params.id;
+
+  let user = await userService.findById(id);
+  if (!user) {
+    responseHelper.notFound(res, errorMessages.USER_NOT_FOUND);
+    return;
+  }
+
+  await userService.deleteById(id);
+
+  responseHelper.ok(res);
+};
+
 userController.register = register;
 userController.login = login;
 userController.findAll = findAll;
 userController.findById = findById;
 userController.updateById = updateById;
+userController.deleteById = deleteById;
 
 module.exports = userController;

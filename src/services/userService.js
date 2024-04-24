@@ -1,5 +1,5 @@
-const { Op } = require('sequelize');
 const _ = require('lodash');
+const { Op } = require('sequelize');
 
 const user = require('../models/user.js');
 
@@ -85,10 +85,20 @@ const updateById = async (id, data) => {
   return updateUser[1][0];
 };
 
+/**
+ * Deletes a user by ID.
+ * @param {String} id - The ID of the user to delete.
+ * @returns {Promise<void>} A promise that resolves when the user is successfully deleted.
+ */
+const deleteById = async (id) => {
+  await user.destroy({ where: { id } });
+};
+
 userService.createUser = createUser;
 userService.findAllWithCount = findAllWithCount;
 userService.findById = findById;
 userService.findByEmail = findByEmail;
 userService.updateById = updateById;
+userService.deleteById = deleteById;
 
 module.exports = userService;

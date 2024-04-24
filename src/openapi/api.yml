@@ -242,6 +242,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Delete user details
+      description: |
+        This endpoint is used to delete a user using its ID.
+      x-eov-operation-handler: userController
+      operationId: deleteById
+      parameters:
+        - name: id
+          in: path
+          description: The user's id.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
   /article:
     post:
       tags:
