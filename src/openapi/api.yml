@@ -125,8 +125,8 @@ paths:
     get:
       tags:
         - user
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       summary: Retrieve a list of users
       description: |
         This endpoint allows retrieving a list of users from the system.
@@ -182,8 +182,8 @@ paths:
     get:
       tags:
         - user
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       summary: Retrieve user details
       description: |
         This endpoint is used to retrieve specific details of a user using its ID.
@@ -206,8 +206,8 @@ paths:
     put:
       tags:
         - user
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       summary: Update user details
       description: |
         This endpoint is used to update specific details of a user using its ID.
@@ -245,8 +245,8 @@ paths:
     delete:
       tags:
         - user
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       summary: Delete user details
       description: |
         This endpoint is used to delete a user using its ID.
@@ -266,8 +266,8 @@ paths:
     post:
       tags:
         - article
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       summary: Create a new article.
       description: |
         Endpoint to create a new article. Requires the user's ID, article image, title, and content in the request body in JSON format. The user's ID must be in UUID format. Upon successful creation, the endpoint returns the details of the created article.
@@ -307,8 +307,8 @@ paths:
     get:
       tags:
         - article
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       x-eov-operation-handler: articleController
       operationId: findAll
       responses:
@@ -331,6 +331,14 @@ components:
           type: string
           description: The user's email address.
           example: john@example.com
+        jobTitle:
+          type: string
+          description: A brief description or biography of the user.
+          example: Global Accounts Engineer
+        biography:
+          type: string
+          description: The user's job title or position.
+          example: Oatmeal advocate, veteran 🐠
         createdAt:
           type: string
           format: date-time

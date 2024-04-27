@@ -33,6 +33,16 @@ const user = db.define(
       unique: true,
       field: 'email',
     },
+    jobTitle: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'job_title',
+    },
+    biography: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'biography',
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
