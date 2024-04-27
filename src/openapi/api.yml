@@ -354,6 +354,8 @@ components:
         - id
         - name
         - email
+        - jobTitle
+        - biography
         - accountId
         - createdAt
         - updatedAt
