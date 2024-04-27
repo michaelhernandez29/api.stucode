@@ -231,6 +231,14 @@ paths:
                   type: string
                   description: The user's name.
                   example: John Doe
+                jobTitle:
+                  type: string
+                  description: A brief description or biography of the user.
+                  example: Global Accounts Engineer
+                biography:
+                  type: string
+                  description: The user's job title or position.
+                  example: Oatmeal advocate, veteran 🐠
                 logo:
                   type: string
                   description: The user's logo URL.
