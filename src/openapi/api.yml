@@ -72,6 +72,7 @@ paths:
                   description: The user's chosen password.
                   example: mySecretPassword123
               required:
+                - name
                 - email
                 - password
               additionalProperties: false
