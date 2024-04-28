@@ -1,12 +1,11 @@
 require('dotenv').config();
 const app = require('express')();
 
-const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
-const yml = require('js-yaml');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const swaggerUi = require('swagger-ui-express');
+const Redoc = require('redoc-express');
 const OpenApiValidator = require('express-openapi-validator');
 
 const config = require('./config');
@@ -17,23 +16,31 @@ const logger = require('./helpers/logger');
 const PORT = config.get('port');
 
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", 'unpkg.com'],
+      workerSrc: ["'self'", 'blob:'],
+    },
+  }),
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const swaggerDocument = yml.load(fs.readFileSync(__dirname + '/openapi/api.yml', 'utf-8'));
 app.get('/', (req, res) => res.send('Express on Vercel'));
 
+app.get('/api/api.yml', (req, res) => {
+  res.sendFile('openapi/api.yml', { root: path.resolve(__dirname) });
+});
+
 app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, {
-    customCssUrl: [
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.css',
-    ],
+  Redoc({
+    title: 'StuCode API Docs',
+    specUrl: '/api/api.yml',
   }),
 );
+
 app.use(
   OpenApiValidator.middleware({
     apiSpec: __dirname + '/openapi/api.yml',
