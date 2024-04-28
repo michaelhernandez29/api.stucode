@@ -35,19 +35,19 @@ app.use(
     ],
   }),
 );
-// app.use(
-//   OpenApiValidator.middleware({
-//     apiSpec: __dirname + '/openapi/api.yml',
-//     operationHandlers: __dirname + '/controllers',
-//     validateSecurity: {
-//       handlers: {
-//         bearerAuth: authHandler,
-//       },
-//     },
-//   }),
-// );
+app.use(
+  OpenApiValidator.middleware({
+    apiSpec: __dirname + '/openapi/api.yml',
+    operationHandlers: __dirname + '/controllers',
+    validateSecurity: {
+      handlers: {
+        bearerAuth: authHandler,
+      },
+    },
+  }),
+);
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   logger.info({ message: `Server listening on port ${PORT}` });
