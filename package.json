@@ -9,7 +9,7 @@
     "prepare": "husky",
     "pre-commit": "eslint . && lint-staged",
     "lint": "eslint 'src/**/*.js'",
-    "start:local": "nodemon --inspect=9238 -r dotenv/config src/index.js"
+    "start:local": "nodemon --inspect=9238 -r dotenv/config api/index.js"
   },
   "lint-staged": {
     "*.js": [
