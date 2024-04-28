@@ -45,8 +45,7 @@ tags:
 paths:
   /user/register:
     post:
-      tags:
-        - user
+      tags: [user]
       summary: Register a new user
       description: |
         This endpoint allows users to register within the system by providing necessary registration details in the request body. Upon successful registration, users gain access to the platform's features and services.
@@ -85,8 +84,7 @@ paths:
                 $ref: '#/components/schemas/User'
   /user/login:
     post:
-      tags:
-        - user
+      tags: [user]
       summary: User authentication
       description: |
         This endpoint is used for user authentication. It allows users to log in by providing their email address and password. Upon successful authentication, the user will receive an authentication token.
@@ -124,8 +122,7 @@ paths:
                     description: The authentication token generated upon successful login.
   /user:
     get:
-      tags:
-        - user
+      tags: [user]
       security:
         - bearerAuth: []
       summary: Retrieve a list of users
@@ -181,8 +178,7 @@ paths:
                   $ref: '#/components/schemas/User'
   /user/{id}:
     get:
-      tags:
-        - user
+      tags: [user]
       security:
         - bearerAuth: []
       summary: Retrieve user details
@@ -205,8 +201,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
     put:
-      tags:
-        - user
+      tags: [user]
       security:
         - bearerAuth: []
       summary: Update user details
@@ -252,8 +247,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
     delete:
-      tags:
-        - user
+      tags: [user]
       security:
         - bearerAuth: []
       summary: Delete user details
@@ -273,8 +267,7 @@ paths:
           description: Ok
   /article:
     post:
-      tags:
-        - article
+      tags: [article]
       security:
         - bearerAuth: []
       summary: Create a new article.
@@ -314,8 +307,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Article'
     get:
-      tags:
-        - article
+      tags: [article]
       security:
         - bearerAuth: []
       x-eov-operation-handler: articleController
