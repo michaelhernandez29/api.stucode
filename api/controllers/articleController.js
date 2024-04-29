@@ -74,9 +74,29 @@ const updateById = async (req, res) => {
   responseHelper.ok(res, response);
 };
 
+/**
+ * Handler for DELETE /article/{id}
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const deleteById = async (req, res) => {
+  const id = req.params.id;
+
+  let article = await articleService.findById(id);
+  if (!article) {
+    responseHelper.notFound(res, errorMessages.ARTICLE_NOT_FOUND);
+    return;
+  }
+
+  await articleService.deleteById(id);
+
+  responseHelper.ok(res);
+};
+
 articleController.create = create;
 articleController.findAll = findAll;
 articleController.findById = findById;
 articleController.updateById = updateById;
+articleController.deleteById = deleteById;
 
 module.exports = articleController;

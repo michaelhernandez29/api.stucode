@@ -81,9 +81,19 @@ const updateById = async (id, data) => {
   return updateUser[1][0];
 };
 
+/**
+ * Deletes a article by ID.
+ * @param {String} id - The ID of the article to delete.
+ * @returns {Promise<void>} A promise that resolves when the article is successfully deleted.
+ */
+const deleteById = async (id) => {
+  await article.destroy({ where: { id } });
+};
+
 articleService.create = create;
 articleService.findAllWithCount = findAllWithCount;
 articleService.findById = findById;
 articleService.updateById = updateById;
+articleService.deleteById = deleteById;
 
 module.exports = articleService;
