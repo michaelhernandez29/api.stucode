@@ -37,7 +37,25 @@ const findAll = async (req, res) => {
   responseHelper.ok(res, response.articles, response.count);
 };
 
+/**
+ * Handler for GET /article/{id}
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const findById = async (req, res) => {
+  const id = req.params.id;
+
+  let article = await articleService.findById(id);
+  if (!article) {
+    responseHelper.notFound(res, errorMessages.USER_NOT_FOUND);
+    return;
+  }
+
+  responseHelper.ok(res, article);
+};
+
 articleController.create = create;
 articleController.findAll = findAll;
+articleController.findById = findById;
 
 module.exports = articleController;

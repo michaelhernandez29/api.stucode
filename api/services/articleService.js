@@ -57,7 +57,17 @@ const findAllWithCount = async (filters) => {
   };
 };
 
+/**
+ * Finds a article by id.
+ * @param {String} id - The id of the article to find.
+ * @returns {Promise<Object|null>} A promise that resolves to the found article object or null if not found.
+ */
+const findById = async (id) => {
+  return article.findOne({ where: { id }, raw: true });
+};
+
 articleService.create = create;
 articleService.findAllWithCount = findAllWithCount;
+articleService.findById = findById;
 
 module.exports = articleService;

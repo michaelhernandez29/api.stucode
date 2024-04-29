@@ -7,8 +7,8 @@ module.exports = {
   UNAUTHORIZED: 'Authentication values are null or undefined',
 
   // 404 NOT_FOUND
-  ACCOUNT_NOT_FOUND: 'The account does not exist',
   USER_NOT_FOUND: 'The user does not exist',
+  ARTICLE_NOT_FOUND: 'The article does not exist',
 
   // 409 CONFLICT
   EMAIL_ALREADY_EXISTS: 'The email already exists',
