@@ -574,21 +574,242 @@ paths:
                 - content
               additionalProperties: false
       responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 201
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  data:
+                    $ref: '#/components/schemas/Article'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    get:
+      tags: [article]
+      security:
+        - bearerAuth: []
+      summary: Retrieve a list of articles
+      description: |
+        This endpoint allows retrieving a list of articles from the system.
+      x-eov-operation-handler: articleController
+      operationId: findAll
+      parameters:
+        - name: userId
+          in: query
+          description: The user's Id.
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: The page number for pagination.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: limit
+          in: query
+          description: The limit of results per page.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 20
+        - name: find
+          in: query
+          description: A search term to filter results.
+          required: false
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          description: >
+            Order of the results: 
+              
+              - a-z - Order by title ascending. From A to Z
+              - z-a - Order by title descending. From Z to A
+          required: false
+          schema:
+            type: string
+            enum:
+              - a-z
+              - z-a
+            default: a-z
+      responses:
         200:
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Article'
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  count:
+                    type: integer
+                    format: int64
+                    description: Total count of the results.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /article/{id}:
     get:
       tags: [article]
       security:
         - bearerAuth: []
+      summary: Retrieve article details
+      description: |
+        This endpoint is used to retrieve specific details of an article using its ID.
       x-eov-operation-handler: articleController
-      operationId: findAll
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          description: The article's id.
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  data:
+                    $ref: '#/components/schemas/Article'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
 
 components:
   schemas:

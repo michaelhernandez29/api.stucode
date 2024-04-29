@@ -30,9 +30,11 @@ const create = async (req, res) => {
  * @param {Response} res - The response object.
  */
 const findAll = async (req, res) => {
-  const articles = await articleService.findAll();
+  const filters = req.query;
 
-  responseHelper.ok(res, articles);
+  const response = await articleService.findAllWithCount(filters);
+
+  responseHelper.ok(res, response.articles, response.count);
 };
 
 articleController.create = create;

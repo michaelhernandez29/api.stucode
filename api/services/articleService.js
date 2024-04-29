@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const { Op } = require('sequelize');
+
 const article = require('../models/article.js');
 
 const articleService = {};
@@ -13,14 +16,48 @@ const create = async (data) => {
 };
 
 /**
- * Finds all articles.
- * @returns {Promise<Array<Object>>} A promise that resolves to an array of articles.
+ * Finds articles with pagination and optional filtering.
+ * @param {Object} filters - Filters for querying articles.
+ * @param {String} filters.userId - The user's Id.
+ * @param {Number} filters.page - The page number for pagination.
+ * @param {Number} filters.limit - The limit of results per page.
+ * @param {String} filters.find - A search term to filter results.
+ * @param {String} filters.orderBy - The order of the results. Possible values: 'a-z', 'z-a'.
+ * @returns {Promise<Object>} A promise that resolves to an object containing count and articles array.
  */
-const findAll = async () => {
-  return article.findAll();
+const findAllWithCount = async (filters) => {
+  const offset = filters.page * filters.limit;
+  let orderQuery = filters.orderBy === 'a-z' ? [['title', 'asc']] : [['title', 'desc']];
+  let where = {};
+
+  if (!_.isNil(filters.userId)) {
+    where.userId = filters.userId;
+  }
+
+  if (!_.isNil(filters.find)) {
+    const str = `%${filters.find}%`;
+    const fields = {
+      title: { [Op.iLike]: str },
+      content: { [Op.iLike]: str },
+    };
+    where[Op.or] = fields;
+  }
+
+  const response = await article.findAndCountAll({
+    where,
+    limit: filters.limit,
+    offset,
+    order: orderQuery,
+    raw: true,
+  });
+
+  return {
+    count: response.count ?? 0,
+    articles: response.rows ?? [],
+  };
 };
 
 articleService.create = create;
-articleService.findAll = findAll;
+articleService.findAllWithCount = findAllWithCount;
 
 module.exports = articleService;
