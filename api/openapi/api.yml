@@ -810,6 +810,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+    put:
+      tags: [article]
+      security:
+        - bearerAuth: []
+      summary: Update article details
+      description: |
+        This endpoint is used to update specific details of a article using its ID.
+      x-eov-operation-handler: articleController
+      operationId: updateById
+      parameters:
+        - name: id
+          in: path
+          description: The article's id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  description: The article's image.
+                title:
+                  type: string
+                  description: The article's title.
+                content:
+                  type: string
+                  description: The article's content.
+              additionalProperties: false
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  data:
+                    $ref: '#/components/schemas/Article'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
 
 components:
   schemas:

@@ -66,8 +66,24 @@ const findById = async (id) => {
   return article.findOne({ where: { id }, raw: true });
 };
 
+/**
+ * Updates an article by ID.
+ * @param {String} id - The ID of the article to update.
+ * @param {Object} data - The data to update for the article.
+ * @returns {Promise<Object|null>} A promise that resolves to the updated article object or null if not found.
+ */
+const updateById = async (id, data) => {
+  const updateUser = await article.update(data, {
+    where: { id },
+    returning: true,
+    raw: true,
+  });
+  return updateUser[1][0];
+};
+
 articleService.create = create;
 articleService.findAllWithCount = findAllWithCount;
 articleService.findById = findById;
+articleService.updateById = updateById;
 
 module.exports = articleService;

@@ -47,15 +47,36 @@ const findById = async (req, res) => {
 
   let article = await articleService.findById(id);
   if (!article) {
-    responseHelper.notFound(res, errorMessages.USER_NOT_FOUND);
+    responseHelper.notFound(res, errorMessages.ARTICLE_NOT_FOUND);
     return;
   }
 
   responseHelper.ok(res, article);
 };
 
+/**
+ * Handler for PUT /user/{id}
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const updateById = async (req, res) => {
+  const id = req.params.id;
+  const payload = req.body;
+
+  let article = await articleService.findById(id);
+  if (!article) {
+    responseHelper.notFound(res, errorMessages.ARTICLE_NOT_FOUND);
+    return;
+  }
+
+  const response = await userService.updateById(id, payload);
+
+  responseHelper.ok(res, response);
+};
+
 articleController.create = create;
 articleController.findAll = findAll;
 articleController.findById = findById;
+articleController.updateById = updateById;
 
 module.exports = articleController;
