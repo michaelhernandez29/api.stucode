@@ -82,6 +82,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /user/login:
     post:
       tags: [user]
@@ -117,9 +153,53 @@ paths:
               schema:
                 type: object
                 properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
                   token:
                     type: string
                     description: The authentication token generated upon successful login.
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /user:
     get:
       tags: [user]
@@ -173,9 +253,60 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  count:
+                    type: integer
+                    format: int64
+                    description: Total count of the results.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /user/{id}:
     get:
       tags: [user]
@@ -199,7 +330,54 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  data:
+                    $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
     put:
       tags: [user]
       security:
@@ -245,7 +423,54 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  data:
+                    $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
     delete:
       tags: [user]
       security:
@@ -265,6 +490,55 @@ paths:
       responses:
         200:
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /article:
     post:
       tags: [article]
@@ -318,6 +592,120 @@ paths:
 
 components:
   schemas:
+    BadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+          description: HTTP status code indicating a bad request error.
+          default: 400
+        message:
+          type: string
+          description: Descriptive message of the error.
+        errorCode:
+          type: string
+          enum:
+            - BAD_REQUEST
+          description: >
+            Possible error codes:
+              
+            - `BAD_REQUEST`: Indicates a bad request error.'
+    Unauthorized:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+          description: HTTP status code indicating an unauthorized error.
+          default: 401
+        message:
+          type: string
+          description: Descriptive message of the error.
+        errorCode:
+          type: string
+          enum:
+            - UNAUTHORIZED
+          description: >
+            Possible error codes:
+              
+            - `UNAUTHORIZED`: Indicates an unauthorized error.'
+    Forbidden:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+          description: HTTP status code indicating a forbidden error.
+          default: 403
+        message:
+          type: string
+          description: Descriptive message of the error.
+        errorCode:
+          type: string
+          enum:
+            - FORBIDDEN
+          description: >
+            Possible error codes:
+              
+            - `FORBIDDEN`: Indicates a forbidden error.'
+    NotFound:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+          description: HTTP status code indicating a not found error.
+          default: 404
+        message:
+          type: string
+          description: Descriptive message of the error.
+        errorCode:
+          type: string
+          enum:
+            - NOT_FOUND
+          description: >
+            Possible error codes:
+              
+            - `NOT_FOUND`: Indicates a not found error.'
+    Conflict:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+          description: HTTP status code indicating a conflict error.
+          default: 409
+        message:
+          type: string
+          description: Descriptive message of the error.
+        errorCode:
+          type: string
+          enum:
+            - CONFLICT
+          description: >
+            Possible error codes:
+              
+            - `CONFLICT`: Indicates a conflict error.'
+    InternalServerError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+          description: HTTP status code indicating an error.
+          default: 500
+        message:
+          type: string
+          description: Descriptive message of the error.
+        errorCode:
+          type: string
+          enum:
+            - INTERNAL_SERVER_ERROR
+          description: >
+            Possible error codes:
+              
+            - `INTERNAL_SERVER_ERROR`: Indicates an error.'
     User:
       type: object
       properties:
