@@ -35,6 +35,7 @@ app.get('/api/api.yml', (req, res) => {
 });
 
 app.use(
+  '/api-docs',
   Redoc({
     title: 'StuCode API Docs',
     specUrl: '/api/api.yml',
