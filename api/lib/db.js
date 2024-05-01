@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const pg = require('pg');
 
 const config = require('../config/index.js');
 
@@ -11,6 +12,7 @@ const db = new Sequelize(database, username, password, {
   host: host,
   dialect: 'postgres',
   logging: false,
+  dialectModule: pg,
 });
 
 module.exports = db;
