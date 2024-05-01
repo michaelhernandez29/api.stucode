@@ -4,7 +4,7 @@
   "description": "Este repositorio contiene el código fuente del backend para StuCode, una plataforma de publicación de artículos diseñada para la comunidad de desarrolladores web. El backend está construido utilizando Node.js y Express, y se integra con PostgreSQL para el almacenamiento de datos relacional.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --config ./jest.config.json --verbose --detectOpenHandles",
+    "test": "NODE_ENV=development jest --config ./jest.config.json --verbose --detectOpenHandles",
     "coverage": "jest --config ./jest.config.json --verbose --detectOpenHandles --coverage",
     "prepare": "husky",
     "pre-commit": "eslint . && lint-staged",
