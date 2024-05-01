@@ -1,7 +1,6 @@
-const _ = require('lodash');
-const { Op } = require('sequelize');
+const { PrismaClient } = require('@prisma/client');
 
-const article = require('../models/article.js');
+const prisma = new PrismaClient();
 
 const articleService = {};
 
@@ -11,8 +10,9 @@ const articleService = {};
  * @returns {Promise<Object>} A promise that resolves to the created article data.
  */
 const create = async (data) => {
-  const newArticle = await article.create(data);
-  return newArticle.get({ plain: true });
+  return await prisma.article.create({
+    data,
+  });
 };
 
 /**
@@ -26,35 +26,27 @@ const create = async (data) => {
  * @returns {Promise<Object>} A promise that resolves to an object containing count and articles array.
  */
 const findAllWithCount = async (filters) => {
-  const offset = filters.page * filters.limit;
-  let orderQuery = filters.orderBy === 'a-z' ? [['title', 'asc']] : [['title', 'desc']];
-  let where = {};
+  const { userId, page, limit, find, orderBy } = filters;
+  const skip = page * limit;
 
-  if (!_.isNil(filters.userId)) {
-    where.userId = filters.userId;
+  const where = {};
+  if (userId) {
+    where.userId = userId;
+  }
+  if (find) {
+    where.OR = [{ title: { contains: find } }, { content: { contains: find } }];
   }
 
-  if (!_.isNil(filters.find)) {
-    const str = `%${filters.find}%`;
-    const fields = {
-      title: { [Op.iLike]: str },
-      content: { [Op.iLike]: str },
-    };
-    where[Op.or] = fields;
-  }
-
-  const response = await article.findAndCountAll({
+  const articles = await prisma.article.findMany({
     where,
-    limit: filters.limit,
-    offset,
-    order: orderQuery,
-    raw: true,
+    orderBy: orderBy === 'a-z' ? { title: 'asc' } : { title: 'desc' },
+    skip,
+    take: limit,
   });
 
-  return {
-    count: response.count ?? 0,
-    articles: response.rows ?? [],
-  };
+  const count = await prisma.article.count({ where });
+
+  return { count, articles };
 };
 
 /**
@@ -63,7 +55,9 @@ const findAllWithCount = async (filters) => {
  * @returns {Promise<Object|null>} A promise that resolves to the found article object or null if not found.
  */
 const findById = async (id) => {
-  return article.findOne({ where: { id }, raw: true });
+  return await prisma.article.findUnique({
+    where: { id },
+  });
 };
 
 /**
@@ -73,12 +67,10 @@ const findById = async (id) => {
  * @returns {Promise<Object|null>} A promise that resolves to the updated article object or null if not found.
  */
 const updateById = async (id, data) => {
-  const updateUser = await article.update(data, {
+  return await prisma.article.update({
     where: { id },
-    returning: true,
-    raw: true,
+    data,
   });
-  return updateUser[1][0];
 };
 
 /**
@@ -87,7 +79,9 @@ const updateById = async (id, data) => {
  * @returns {Promise<void>} A promise that resolves when the article is successfully deleted.
  */
 const deleteById = async (id) => {
-  await article.destroy({ where: { id } });
+  return await prisma.article.delete({
+    where: { id },
+  });
 };
 
 articleService.create = create;

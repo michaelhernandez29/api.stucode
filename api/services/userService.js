@@ -1,7 +1,6 @@
-const _ = require('lodash');
-const { Op } = require('sequelize');
+const { PrismaClient } = require('@prisma/client');
 
-const user = require('../models/user.js');
+const prisma = new PrismaClient();
 
 const userService = {};
 
@@ -11,8 +10,9 @@ const userService = {};
  * @returns {Promise<Object>} A promise that resolves to the created user data.
  */
 const createUser = async (data) => {
-  const newUser = await user.create(data);
-  return newUser.get({ plain: true });
+  return await prisma.user.create({
+    data,
+  });
 };
 
 /**
@@ -25,31 +25,24 @@ const createUser = async (data) => {
  * @returns {Promise<Object>} A promise that resolves to an object containing count and users array.
  */
 const findAllWithCount = async (filters) => {
-  const offset = filters.page * filters.limit;
-  let orderQuery = filters.orderBy === 'a-z' ? [['name', 'asc']] : [['name', 'desc']];
-  let where = {};
+  const { page, limit, find, orderBy } = filters;
+  const skip = page * limit;
 
-  if (!_.isNil(filters.find)) {
-    const str = `%${filters.find}%`;
-    const fields = {
-      name: { [Op.iLike]: str },
-      email: { [Op.iLike]: str },
-    };
-    where[Op.or] = fields;
+  const where = {};
+  if (find) {
+    where.OR = [{ name: { contains: find } }, { email: { contains: find } }];
   }
 
-  const response = await user.findAndCountAll({
+  const users = await prisma.user.findMany({
     where,
-    limit: filters.limit,
-    offset,
-    order: orderQuery,
-    raw: true,
+    orderBy: orderBy === 'a-z' ? { name: 'asc' } : { name: 'desc' },
+    skip,
+    take: limit,
   });
 
-  return {
-    count: response.count ?? 0,
-    users: response.rows ?? [],
-  };
+  const count = await prisma.user.count({ where });
+
+  return { count, users };
 };
 
 /**
@@ -58,7 +51,9 @@ const findAllWithCount = async (filters) => {
  * @returns {Promise<Object|null>} A promise that resolves to the found user object or null if not found.
  */
 const findById = async (id) => {
-  return user.findOne({ where: { id }, raw: true });
+  return await prisma.user.findUnique({
+    where: { id },
+  });
 };
 
 /**
@@ -67,7 +62,9 @@ const findById = async (id) => {
  * @returns {Promise<Object|null>} A promise that resolves to the found user object or null if not found.
  */
 const findByEmail = async (email) => {
-  return user.findOne({ where: { email }, raw: true });
+  return await prisma.user.findUnique({
+    where: { email },
+  });
 };
 
 /**
@@ -77,12 +74,10 @@ const findByEmail = async (email) => {
  * @returns {Promise<Object|null>} A promise that resolves to the updated user object or null if not found.
  */
 const updateById = async (id, data) => {
-  const updateUser = await user.update(data, {
+  return await prisma.user.update({
     where: { id },
-    returning: true,
-    raw: true,
+    data,
   });
-  return updateUser[1][0];
 };
 
 /**
@@ -91,7 +86,9 @@ const updateById = async (id, data) => {
  * @returns {Promise<void>} A promise that resolves when the user is successfully deleted.
  */
 const deleteById = async (id) => {
-  await user.destroy({ where: { id } });
+  return await prisma.user.delete({
+    where: { id },
+  });
 };
 
 userService.createUser = createUser;
