@@ -13,6 +13,7 @@ const db = new Sequelize(database, username, password, {
   dialect: 'postgres',
   logging: false,
   dialectModule: pg,
+  port: 5432,
 });
 
 module.exports = db;

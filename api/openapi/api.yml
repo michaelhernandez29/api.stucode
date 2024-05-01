@@ -17,7 +17,7 @@ info:
 
     ## API BASE URL
 
-    The base URL of our API is: `https://api-stucode.vercel.app/v1`
+    The base URL of our API is: `https://api-stucode.vercel.app`
 
     ## Authentication
 
@@ -30,7 +30,7 @@ info:
     We're excited to have you join the StuCode community and explore the possibilities of our API. Happy coding!
 servers:
   - url: /v1
-  - url: https://api-stucode.vercel.app/v1
+  - url: https://api-stucode.vercel.app
 tags:
   - name: user
     description: Endpoints related to user information and operations.
