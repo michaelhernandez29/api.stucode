@@ -161,7 +161,7 @@ paths:
                   message:
                     type: string
                     description: Descriptive message of the success.
-                  token:
+                  data:
                     type: string
                     description: The authentication token generated upon successful login.
         400:
