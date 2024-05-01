@@ -125,6 +125,40 @@ describe('GET /user/{id}', () => {
   });
 });
 
+describe('PUT /user/{id}', () => {
+  const newUserData = {
+    name: 'New name',
+    jobTitle: 'New jobTitle',
+    biography: 'New biography',
+    logo: 'New logo',
+  };
+
+  it('should respond with 200 OK if the udpate was successful', async () => {
+    const user = await request(app).post('/v1/user/register').send(newUserCompleteBody);
+    const response = await request(app).put(`/v1/user/${user.body.data.id}`).send(newUserData);
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body.data.name).toEqual(newUserData.name);
+    expect(response.body.data.jobTitle).toEqual(newUserData.jobTitle);
+    expect(response.body.data.biography).toEqual(newUserData.biography);
+    expect(response.body.data.logo).toEqual(newUserData.logo);
+  });
+
+  it("should respond with 404 Not Found if the user doesn't exist", async () => {
+    const id = '11111111-1111-1111-1111-111111111111';
+
+    const response = await request(app).put(`/v1/user/${id}`).send(newUserData);
+
+    expect(response.status).toBe(404);
+    expect(response.body.statusCode).toBe(404);
+    expect(response.body.message).toEqual(errorMessages.USER_NOT_FOUND);
+    expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
+  });
+});
+
 afterEach(async () => {
   app.close();
   await prisma.user.deleteMany();
