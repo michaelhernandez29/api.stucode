@@ -99,6 +99,32 @@ describe('POST /user/login', () => {
   });
 });
 
+describe('GET /user/{id}', () => {
+  it('should respond with 200 OK if the user exists', async () => {
+    const user = await request(app).post('/v1/user/register').send(newUserCompleteBody);
+
+    const response = await request(app).get(`/v1/user/${user.body.data.id}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body.data.name).toEqual(newUserCompleteBody.name);
+    expect(response.body.data.email).toEqual(newUserCompleteBody.email);
+  });
+
+  it("should respond with 404 Not Found if the user doesn't exist", async () => {
+    const id = '11111111-1111-1111-1111-111111111111';
+
+    const response = await request(app).get(`/v1/user/${id}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.statusCode).toBe(404);
+    expect(response.body.message).toEqual(errorMessages.USER_NOT_FOUND);
+    expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
+  });
+});
+
 afterEach(async () => {
   app.close();
   await prisma.user.deleteMany();
