@@ -1,5 +1,11 @@
 const convict = require('convict');
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.production' });
+} else {
+  dotenv.config({ path: '.env.local' });
+}
 
 const config = convict({
   env: {
@@ -60,6 +66,12 @@ const config = convict({
       format: '*',
       default: 'stucode',
       env: 'POSTGRES_PASSWORD',
+    },
+    host: {
+      doc: 'The host of the database',
+      format: '*',
+      default: 'localhost',
+      env: 'POSTGRES_HOST',
     },
   },
 });
