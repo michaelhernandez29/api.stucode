@@ -1,8 +1,7 @@
 {
-  "moduleFileExtensions": [
-    "js"
-  ],
+  "moduleFileExtensions": ["js"],
   "rootDir": ".",
   "testEnvironment": "node",
-  "testRegex": ".test.js$"
+  "testRegex": ".test.js$",
+  "setupFilesAfterEnv": ["./jest.setup.js"]
 }
