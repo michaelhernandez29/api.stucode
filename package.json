@@ -10,7 +10,8 @@
     "pre-commit": "eslint . && lint-staged",
     "lint": "eslint .",
     "start:local": "NODE_ENV=local nodemon --inspect=9238 api/index.js",
-    "start": "NODE_ENV=production node api/index.js"
+    "start": "NODE_ENV=production node api/index.js",
+    "build": "npx prisma db push && npx prisma generate && next build"
   },
   "lint-staged": {
     "*.js": [
