@@ -58,7 +58,6 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "nodemon": "^3.1.0",
-    "redoc-express": "^2.1.0",
-    "sequelize": "^6.37.1"
+    "redoc-express": "^2.1.0"
   }
 }
