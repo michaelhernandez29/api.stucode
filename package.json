@@ -10,6 +10,7 @@
     "pre-commit": "eslint . && lint-staged",
     "lint": "eslint .",
     "start:local": "NODE_ENV=local nodemon --inspect=9238 api/index.js",
+    "generate": "npx prisma generate",
     "build": "npm run generate",
     "start": "NODE_ENV=production npm run build && node build/index.js"
   },
