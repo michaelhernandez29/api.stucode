@@ -14,6 +14,12 @@ const db = new Sequelize(database, username, password, {
   logging: false,
   dialectModule: pg,
   port: 5432,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 
 module.exports = db;
