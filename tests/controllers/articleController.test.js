@@ -18,6 +18,7 @@ const userCompleteBody = {
 beforeAll(async () => {
   await prisma.$connect();
   await prisma.article.deleteMany();
+  await prisma.user.deleteMany();
 });
 
 beforeEach(async () => {
@@ -58,14 +59,47 @@ describe('POST /article', () => {
   });
 });
 
+describe('GET /article', () => {
+  it('should respond with 200 OK with count N if there are N users in the system', async () => {
+    const user = await request(app).post('/v1/user/register').send(userCompleteBody);
+    const articleData = getArticleData(user.body.data.id);
+    await request(app).post('/v1/article').send(articleData);
+    await request(app).post('/v1/article').send(articleData);
+
+    const response = await request(app).get('/v1/article');
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body).toHaveProperty('count');
+    expect(response.body.data.length).toEqual(2);
+    expect(response.body.count).toEqual(2);
+  });
+
+  it('should respond with 200 OK with count 0 if there are not articles in the system', async () => {
+    const response = await request(app).get('/v1/article');
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body).toHaveProperty('count');
+    expect(response.body.data.length).toEqual(0);
+    expect(response.body.count).toEqual(0);
+  });
+});
+
 afterEach(async () => {
   app.close();
   await prisma.article.deleteMany();
+  await prisma.user.deleteMany();
   await prisma.$disconnect();
 });
 
 afterAll(async () => {
   app.close();
   await prisma.article.deleteMany();
+  await prisma.user.deleteMany();
   await prisma.$disconnect();
 });
