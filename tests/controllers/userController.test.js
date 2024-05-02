@@ -99,6 +99,39 @@ describe('POST /user/login', () => {
   });
 });
 
+describe('GET /user', () => {
+  it('should respond with 200 OK with count N if there are N users in the system', async () => {
+    await request(app).post('/v1/user/register').send(newUserCompleteBody);
+    await request(app).post('/v1/user/register').send({
+      name: 'test',
+      email: 'test1@test.com',
+      password: 'test',
+    });
+
+    const response = await request(app).get('/v1/user');
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body).toHaveProperty('count');
+    expect(response.body.data.length).toEqual(2);
+    expect(response.body.count).toEqual(2);
+  });
+
+  it('should respond with 200 OK with count 0 if there are not users in the system', async () => {
+    const response = await request(app).get('/v1/user');
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body).toHaveProperty('count');
+    expect(response.body.data.length).toEqual(0);
+    expect(response.body.count).toEqual(0);
+  });
+});
+
 describe('GET /user/{id}', () => {
   it('should respond with 200 OK if the user exists', async () => {
     const user = await request(app).post('/v1/user/register').send(newUserCompleteBody);
