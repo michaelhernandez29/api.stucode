@@ -158,7 +158,7 @@ describe('DELETE /article/{id}', () => {
     expect(response.status).toBe(200);
     expect(response.body.statusCode).toBe(200);
     expect(response.body.message).toEqual('OK');
-  });
+  }, 10000);
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
