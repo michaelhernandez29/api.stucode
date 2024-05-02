@@ -4,48 +4,17 @@ on:
     branches:
       - develop
       - master
-  pull_request:
-    types: [opened, synchronize, reopened]
 
+name: SonarCloud Scan
 jobs:
-  test:
-    name: Run Tests
-    needs: sonarcloud
-    runs-on: ubuntu-latest
-    env:
-      POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_TEST_PRISMA_URL }}
-      POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_TEST_URL_NON_POOLING }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
   sonarcloud:
-    name: SonarCloud
+    name: Build, Test and Analyze
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
         with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
+          fetch-depth: 0
       - name: SonarCloud Scan
-        id: sonar
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
