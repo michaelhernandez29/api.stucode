@@ -75,7 +75,7 @@ describe('GET /article', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(2);
     expect(response.body.count).toEqual(2);
-  }, 10000);
+  });
 
   it('should respond with 200 OK with count 0 if there are not articles in the system', async () => {
     const response = await request(app).get('/v1/article');
@@ -87,7 +87,7 @@ describe('GET /article', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(0);
     expect(response.body.count).toEqual(0);
-  }, 10000);
+  });
 });
 
 describe('GET /article/{id}', () => {
@@ -158,7 +158,7 @@ describe('DELETE /article/{id}', () => {
     expect(response.status).toBe(200);
     expect(response.body.statusCode).toBe(200);
     expect(response.body.message).toEqual('OK');
-  }, 10000);
+  });
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';

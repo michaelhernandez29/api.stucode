@@ -3,5 +3,6 @@
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".test.js$",
-  "setupFilesAfterEnv": ["./jest.setup.js"]
+  "setupFilesAfterEnv": ["./jest.setup.js"],
+  "testTimeout": 10000
 }
