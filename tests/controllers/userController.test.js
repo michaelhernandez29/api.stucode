@@ -84,6 +84,21 @@ describe('POST /user/login', () => {
     expect(response.body.errorCode).toEqual(errorCodes.BAD_REQUEST);
   });
 
+  it('should respond with 400 Bad Request if email format is not valid', async () => {
+    const data = {
+      email: 'test',
+      password: 'test1',
+    };
+
+    await request(app).post('/v1/user/register').send(newUserCompleteBody);
+
+    const response = await request(app).post('/v1/user/login').send(data);
+    expect(response.status).toBe(400);
+    expect(response.body.statusCode).toBe(400);
+    expect(response.body.message).toEqual(errorMessages.EMAIL_FORMAT_NOT_VALID);
+    expect(response.body.errorCode).toEqual(errorCodes.BAD_REQUEST);
+  });
+
   it("should respond with 404 Not Found if email doesn't exist", async () => {
     const data = {
       email: 'test@test.com',
