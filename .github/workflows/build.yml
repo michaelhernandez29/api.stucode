@@ -13,8 +13,8 @@ jobs:
     needs: sonarcloud
     runs-on: ubuntu-latest
     env:
-      POSTGRES_TEST_PRISMA_URL: ${{ secrets.POSTGRES_TEST_PRISMA_URL }}
-      POSTGRES_TEST_URL_NON_POOLING: ${{ secrets.POSTGRES_TEST_URL_NON_POOLING }}
+      POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_TEST_PRISMA_URL }}
+      POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_TEST_URL_NON_POOLING }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
