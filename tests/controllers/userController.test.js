@@ -16,9 +16,13 @@ const newUserCompleteBody = {
 };
 const userCompleteBody = { email: 'test@test.com', password: 'test' };
 
+beforeAll(async () => {
+  await prisma.$connect();
+  await prisma.user.deleteMany();
+});
+
 beforeEach(async () => {
   app = server.listen(config.get('port'));
-  await prisma.$connect();
 });
 
 describe('POST /user/register', () => {
@@ -230,6 +234,12 @@ describe('DELETE /user/{id}', () => {
 });
 
 afterEach(async () => {
+  app.close();
+  await prisma.user.deleteMany();
+  await prisma.$disconnect();
+});
+
+afterAll(async () => {
   app.close();
   await prisma.user.deleteMany();
   await prisma.$disconnect();
