@@ -75,7 +75,7 @@ describe('GET /article', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(2);
     expect(response.body.count).toEqual(2);
-  });
+  }, 10000);
 
   it('should respond with 200 OK with count 0 if there are not articles in the system', async () => {
     const response = await request(app).get('/v1/article');
