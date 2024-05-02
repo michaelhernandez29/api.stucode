@@ -63,12 +63,13 @@ const findById = async (id) => {
 /**
  * Updates an article by ID.
  * @param {String} id - The ID of the article to update.
+ * @param {String} userId - The ID of the user.
  * @param {Object} data - The data to update for the article.
  * @returns {Promise<Object|null>} A promise that resolves to the updated article object or null if not found.
  */
-const updateById = async (id, data) => {
+const updateById = async (id, userId, data) => {
   return await prisma.article.update({
-    where: { id },
+    where: { id, userId },
     data,
   });
 };

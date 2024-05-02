@@ -833,6 +833,9 @@ paths:
             schema:
               type: object
               properties:
+                userId:
+                  type: string
+                  description: The user's Id.
                 image:
                   type: string
                   description: The article's image.

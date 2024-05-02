@@ -61,7 +61,7 @@ const findById = async (req, res) => {
  */
 const updateById = async (req, res) => {
   const id = req.params.id;
-  const payload = req.body;
+  const { userId, ...payload } = req.body;
 
   let article = await articleService.findById(id);
   if (!article) {
@@ -69,7 +69,7 @@ const updateById = async (req, res) => {
     return;
   }
 
-  const response = await userService.updateById(id, payload);
+  const response = await articleService.updateById(id, userId, payload);
 
   responseHelper.ok(res, response);
 };

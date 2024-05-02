@@ -118,6 +118,35 @@ describe('GET /article/{id}', () => {
   });
 });
 
+describe('PUT /article/{id}', () => {
+  it('should respond with 200 OK if the udpate was successful', async () => {
+    const user = await request(app).post('/v1/user/register').send(userCompleteBody);
+    const articleData = getArticleData(user.body.data.id);
+    const article = await request(app).post('/v1/article').send(articleData);
+
+    const response = await request(app).put(`/v1/article/${article.body.data.id}`).send(articleData);
+
+    expect(response.status).toBe(200);
+    expect(response.body.statusCode).toBe(200);
+    expect(response.body.message).toEqual('OK');
+    expect(response.body).toHaveProperty('data');
+    expect(response.body.data.title).toEqual(articleData.title);
+    expect(response.body.data.content).toEqual(articleData.content);
+  });
+
+  it("should respond with 404 Not Found if the article doesn't exist", async () => {
+    const id = '11111111-1111-1111-1111-111111111111';
+
+    const articleData = getArticleData(id);
+    const response = await request(app).put(`/v1/article/${id}`).send(articleData);
+
+    expect(response.status).toBe(404);
+    expect(response.body.statusCode).toBe(404);
+    expect(response.body.message).toEqual(errorMessages.ARTICLE_NOT_FOUND);
+    expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
+  });
+});
+
 afterEach(async () => {
   app.close();
   await prisma.article.deleteMany();
