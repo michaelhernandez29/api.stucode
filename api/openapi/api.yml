@@ -323,7 +323,7 @@ paths:
           description: The user's id.
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         200:
           description: Ok
@@ -393,7 +393,7 @@ paths:
           description: The user's id.
           required: true
           schema:
-            type: string
+            type: integer
       requestBody:
         required: true
         content:
@@ -486,7 +486,7 @@ paths:
           description: The user's id.
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         200:
           description: Ok
@@ -755,7 +755,7 @@ paths:
           description: The article's id.
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         200:
           description: Ok
@@ -825,7 +825,7 @@ paths:
           description: The article's id.
           required: true
           schema:
-            type: string
+            type: integer
       requestBody:
         required: true
         content:
@@ -915,7 +915,7 @@ paths:
           description: The article's id.
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         200:
           description: Ok
@@ -1089,7 +1089,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           description: The user's id.
         name:
           type: string
@@ -1132,7 +1132,7 @@ components:
     Article:
       properties:
         id:
-          type: string
+          type: integer
           description: The account's id.
         createdAt:
           type: string
@@ -1143,7 +1143,7 @@ components:
           format: date-time
           description: The date the account was last updated.
         userId:
-          type: string
+          type: integer
           description: The user's id.
         image:
           type: string
