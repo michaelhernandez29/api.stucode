@@ -30,7 +30,7 @@ const findAllWithCount = async (filters) => {
 
   const where = {};
   if (find) {
-    where.OR = [{ name: { contains: find } }, { email: { contains: find } }];
+    where.OR = [{ name: { contains: find, mode: 'insensitive' } }, { email: { contains: find, mode: 'insensitive' } }];
   }
 
   const users = await prisma.user.findMany({
