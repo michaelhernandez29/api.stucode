@@ -28,13 +28,17 @@ const create = async (data) => {
 const findAllWithCount = async (filters) => {
   const { userId, page, limit, find, orderBy } = filters;
   const skip = page * limit;
+  console.log(find);
 
   const where = {};
   if (userId) {
     where.userId = userId;
   }
   if (find) {
-    where.OR = [{ title: { contains: find } }, { content: { contains: find } }];
+    where.OR = [
+      { title: { contains: find, mode: 'insensitive' } },
+      { content: { contains: find, mode: 'insensitive' } },
+    ];
   }
 
   const articles = await prisma.article.findMany({
