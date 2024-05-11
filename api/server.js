@@ -11,7 +11,7 @@ const OpenApiValidator = require('express-openapi-validator');
 const authHandler = require('./middlewares/authHandler');
 const errorHandler = require('./middlewares/errorHandler');
 
-app.use(cors({ origin: '*' }));
+app.use(cors());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
