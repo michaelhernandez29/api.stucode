@@ -28,7 +28,7 @@ const create = async (data) => {
 const findAllWithCount = async (filters) => {
   const { userId, page, limit, find, orderBy } = filters;
   const skip = page * limit;
-  console.log(find);
+  let orderByClause;
 
   const where = {};
   if (userId) {
@@ -40,10 +40,21 @@ const findAllWithCount = async (filters) => {
       { content: { contains: find, mode: 'insensitive' } },
     ];
   }
+  if (orderBy === 'a-z') {
+    orderByClause = { title: 'asc' };
+  } else if (orderBy === 'z-a') {
+    orderByClause = { title: 'desc' };
+  } else if (orderBy === 'updated-at-asc') {
+    orderByClause = { updatedAt: 'asc' };
+  } else if (orderBy === 'updated-at-desc') {
+    orderByClause = { updatedAt: 'desc' };
+  } else {
+    orderByClause = { title: 'asc' };
+  }
 
   const articles = await prisma.article.findMany({
     where,
-    orderBy: orderBy === 'a-z' ? { title: 'asc' } : { title: 'desc' },
+    orderBy: orderByClause,
     skip,
     take: limit,
   });

@@ -672,12 +672,16 @@ paths:
               
               - a-z - Order by title ascending. From A to Z
               - z-a - Order by title descending. From Z to A
+              - updated-at-asc - Orders results by ascending update date. Oldest articles first.
+              - updated-at-desc - Orders results by descending update date. Newest articles first.
           required: false
           schema:
             type: string
             enum:
               - a-z
               - z-a
+              - updated-at-asc
+              - updated-at-desc
             default: a-z
       responses:
         200:
