@@ -1111,6 +1111,7 @@ components:
           type: string
           description: The user's job title or position.
           example: Oatmeal advocate, veteran 🐠
+          default: Welcome to my profile!!
         createdAt:
           type: string
           format: date-time
