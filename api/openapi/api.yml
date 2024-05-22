@@ -1164,6 +1164,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+  /like:
+    get:
+      tags: [like]
+      summary: Retrieve likes by user ID.
+      description: This endpoint retrieves likes associated with a specific user by providing the user's ID in the path parameter.
+      x-eov-operation-handler: likeController
+      operationId: getByUserId
+      parameters:
+        - name: userId
+          in: query
+          description: The user's id.
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  count:
+                    type: integer
+                    format: int64
+                    description: Total count of the results.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Like'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
 
 components:
   schemas:

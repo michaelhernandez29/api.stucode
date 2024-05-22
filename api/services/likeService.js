@@ -18,7 +18,7 @@ const create = async (data) => {
  * @param {number} articleId - The ID of the article to find likes for.
  * @returns {Promise<Object>} A promise that resolves to an object containing count and likes data.
  */
-const findAllWithCount = async (articleId) => {
+const findAllByArticleIdWithCount = async (articleId) => {
   const likes = await prisma.like.findMany({
     where: {
       article: {
@@ -32,12 +32,6 @@ const findAllWithCount = async (articleId) => {
   return { count, likes };
 };
 
-/**
- * Deletes a like based on the provided articleId and userId.
- * @param {number} articleId - The ID of the article associated with the like.
- * @param {number} userId - The ID of the user associated with the like.
- * @returns {Promise<void>} A promise that resolves to the deleted like data.
- */
 const deleteByArticleIdAndUserId = async (articleId, userId) => {
   await prisma.like.deleteMany({
     where: {
@@ -47,8 +41,28 @@ const deleteByArticleIdAndUserId = async (articleId, userId) => {
   });
 };
 
+/**
+ * Finds all likes with count by user ID.
+ * @param {number} userId - The ID of the user to find likes for.
+ * @returns {Promise<Object>} A promise that resolves to an object containing count and likes data.
+ */
+const findAllByUserIdWithCount = async (userId) => {
+  const likes = await prisma.like.findMany({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
+  });
+
+  const count = likes.length;
+
+  return { count, likes };
+};
+
 likeService.create = create;
-likeService.findAllWithCount = findAllWithCount;
+likeService.findAllByArticleIdWithCount = findAllByArticleIdWithCount;
 likeService.deleteByArticleIdAndUserId = deleteByArticleIdAndUserId;
+likeService.findAllByUserIdWithCount = findAllByUserIdWithCount;
 
 module.exports = likeService;
