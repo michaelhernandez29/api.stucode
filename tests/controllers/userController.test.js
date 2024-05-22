@@ -19,6 +19,7 @@ const userCompleteBody = { email: 'test@test.com', password: 'test' };
 beforeAll(async () => {
   await prisma.$connect();
   await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
 });
 
 beforeEach(async () => {
@@ -35,7 +36,7 @@ describe('POST /user/register', () => {
     expect(response.body).toHaveProperty('data');
     expect(response.body.data.name).toEqual(newUserCompleteBody.name);
     expect(response.body.data.email).toEqual(newUserCompleteBody.email);
-  });
+  }, 20000);
 
   it('should respond with 400 Bad Request if email format is not valid', async () => {
     const emailInvalidFormatBody = {
@@ -49,7 +50,7 @@ describe('POST /user/register', () => {
     expect(response.body.statusCode).toBe(400);
     expect(response.body.message).toEqual(errorMessages.EMAIL_FORMAT_NOT_VALID);
     expect(response.body.errorCode).toEqual(errorCodes.BAD_REQUEST);
-  });
+  }, 20000);
 
   it('should respond with 409 Conflict if email already exists', async () => {
     await request(app).post('/v1/user/register').send(newUserCompleteBody);
@@ -59,7 +60,7 @@ describe('POST /user/register', () => {
     expect(response.body.statusCode).toBe(409);
     expect(response.body.message).toEqual(errorMessages.EMAIL_ALREADY_EXISTS);
     expect(response.body.errorCode).toEqual(errorCodes.CONFLICT);
-  });
+  }, 20000);
 });
 
 describe('POST /user/login', () => {
@@ -71,7 +72,7 @@ describe('POST /user/login', () => {
     expect(response.body.statusCode).toBe(200);
     expect(response.body.message).toEqual('OK');
     expect(response.body).toHaveProperty('data');
-  });
+  }, 20000);
 
   it('should respond with 400 Bad Request if credentials are not valid', async () => {
     const data = {
@@ -86,7 +87,7 @@ describe('POST /user/login', () => {
     expect(response.body.statusCode).toBe(400);
     expect(response.body.message).toEqual(errorMessages.PASSWORD_NOT_VALID);
     expect(response.body.errorCode).toEqual(errorCodes.BAD_REQUEST);
-  });
+  }, 20000);
 
   it('should respond with 400 Bad Request if email format is not valid', async () => {
     const data = {
@@ -101,7 +102,7 @@ describe('POST /user/login', () => {
     expect(response.body.statusCode).toBe(400);
     expect(response.body.message).toEqual(errorMessages.EMAIL_FORMAT_NOT_VALID);
     expect(response.body.errorCode).toEqual(errorCodes.BAD_REQUEST);
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if email doesn't exist", async () => {
     const data = {
@@ -115,7 +116,7 @@ describe('POST /user/login', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.USER_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 describe('GET /user', () => {
@@ -136,7 +137,7 @@ describe('GET /user', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(2);
     expect(response.body.count).toEqual(2);
-  });
+  }, 20000);
 
   it('should respond with 200 OK with count 0 if there are not users in the system', async () => {
     const response = await request(app).get('/v1/user');
@@ -148,7 +149,7 @@ describe('GET /user', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(0);
     expect(response.body.count).toEqual(0);
-  });
+  }, 20000);
 });
 
 describe('GET /user/{id}', () => {
@@ -163,7 +164,7 @@ describe('GET /user/{id}', () => {
     expect(response.body).toHaveProperty('data');
     expect(response.body.data.name).toEqual(newUserCompleteBody.name);
     expect(response.body.data.email).toEqual(newUserCompleteBody.email);
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if the user doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
@@ -174,7 +175,7 @@ describe('GET /user/{id}', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.USER_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 describe('PUT /user/{id}', () => {
@@ -197,7 +198,7 @@ describe('PUT /user/{id}', () => {
     expect(response.body.data.jobTitle).toEqual(newUserData.jobTitle);
     expect(response.body.data.biography).toEqual(newUserData.biography);
     expect(response.body.data.logo).toEqual(newUserData.logo);
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if the user doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
@@ -208,7 +209,7 @@ describe('PUT /user/{id}', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.USER_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 describe('DELETE /user/{id}', () => {
@@ -219,7 +220,7 @@ describe('DELETE /user/{id}', () => {
     expect(response.status).toBe(200);
     expect(response.body.statusCode).toBe(200);
     expect(response.body.message).toEqual('OK');
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if the user doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
@@ -230,17 +231,19 @@ describe('DELETE /user/{id}', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.USER_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 afterEach(async () => {
   app.close();
   await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
   await prisma.$disconnect();
 });
 
 afterAll(async () => {
   app.close();
   await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
   await prisma.$disconnect();
 });

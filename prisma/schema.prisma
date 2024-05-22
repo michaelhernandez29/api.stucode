@@ -27,6 +27,7 @@ model User {
 
   @@map(name: "users")
   articles  Article[]
+  likes     Like[]
 }
 
 model Article {
@@ -40,4 +41,19 @@ model Article {
 
   @@map(name: "articles")
   user      User     @relation(fields: [userId], references: [id])
+  likes     Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement()) @db.Integer
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
+  userId    Int      @db.Integer
+  articleId Int      @db.Integer
+
+  user      User     @relation(fields: [userId], references: [id])
+  article   Article  @relation(fields: [articleId], references: [id])
+
+  @@unique([userId, articleId])
+  @@map(name: "likes")
 }

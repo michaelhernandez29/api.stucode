@@ -19,6 +19,7 @@ beforeAll(async () => {
   await prisma.$connect();
   await prisma.article.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
 });
 
 beforeEach(async () => {
@@ -46,7 +47,7 @@ describe('POST /article', () => {
     expect(article.body).toHaveProperty('data');
     expect(article.body.data.title).toEqual(articleData.title);
     expect(article.body.data.content).toEqual(articleData.content);
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if user doesn't exist", async () => {
     const articleData = getArticleData();
@@ -56,7 +57,7 @@ describe('POST /article', () => {
     expect(article.body.statusCode).toBe(404);
     expect(article.body.message).toEqual(errorMessages.USER_NOT_FOUND);
     expect(article.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 describe('GET /article', () => {
@@ -75,7 +76,7 @@ describe('GET /article', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(2);
     expect(response.body.count).toEqual(2);
-  });
+  }, 20000);
 
   it('should respond with 200 OK with count 0 if there are not articles in the system', async () => {
     const response = await request(app).get('/v1/article');
@@ -87,7 +88,7 @@ describe('GET /article', () => {
     expect(response.body).toHaveProperty('count');
     expect(response.body.data.length).toEqual(0);
     expect(response.body.count).toEqual(0);
-  });
+  }, 20000);
 });
 
 describe('GET /article/{id}', () => {
@@ -104,7 +105,7 @@ describe('GET /article/{id}', () => {
     expect(response.body).toHaveProperty('data');
     expect(response.body.data.title).toEqual(articleData.title);
     expect(response.body.data.content).toEqual(articleData.content);
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
@@ -115,7 +116,7 @@ describe('GET /article/{id}', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.ARTICLE_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 describe('PUT /article/{id}', () => {
@@ -132,7 +133,7 @@ describe('PUT /article/{id}', () => {
     expect(response.body).toHaveProperty('data');
     expect(response.body.data.title).toEqual(articleData.title);
     expect(response.body.data.content).toEqual(articleData.content);
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
@@ -144,7 +145,7 @@ describe('PUT /article/{id}', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.ARTICLE_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 describe('DELETE /article/{id}', () => {
@@ -158,7 +159,7 @@ describe('DELETE /article/{id}', () => {
     expect(response.status).toBe(200);
     expect(response.body.statusCode).toBe(200);
     expect(response.body.message).toEqual('OK');
-  });
+  }, 20000);
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
     const id = '11111111-1111-1111-1111-111111111111';
@@ -170,13 +171,14 @@ describe('DELETE /article/{id}', () => {
     expect(response.body.statusCode).toBe(404);
     expect(response.body.message).toEqual(errorMessages.ARTICLE_NOT_FOUND);
     expect(response.body.errorCode).toEqual(errorCodes.NOT_FOUND);
-  });
+  }, 20000);
 });
 
 afterEach(async () => {
   app.close();
   await prisma.article.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
   await prisma.$disconnect();
 });
 
@@ -184,5 +186,7 @@ afterAll(async () => {
   app.close();
   await prisma.article.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
+
   await prisma.$disconnect();
 });

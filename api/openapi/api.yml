@@ -972,6 +972,85 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+  /like/{id}:
+    post:
+      tags: [like]
+      summary: Create a like for a specific article.
+      description: This endpoint allows users to create a like for a particular article by specifying the article's ID.
+      x-eov-operation-handler: likeController
+      operationId: create
+      parameters:
+        - name: id
+          in: path
+          description: The article's id.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  description: The user's Id.
+              additionalProperties: false
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  data:
+                    $ref: '#/components/schemas/Like'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conflict'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
 
 components:
   schemas:
@@ -1167,6 +1246,26 @@ components:
         - title
         - content
       additionalProperties: false
+    Like:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The like's id.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date the like was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The date the like was last updated.
+        articleId:
+          type: integer
+          description: The account's id.
+        userId:
+          type: integer
+          description: The user's id.
 
   securitySchemes:
     bearerAuth:
