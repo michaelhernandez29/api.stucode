@@ -30,7 +30,22 @@ const getByArticleId = async (req, res) => {
   responseHelper.ok(res, response.likes, response.count);
 };
 
+/**
+ * Handler for DELETE /like/{articleId}
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ */
+const deleteByArticleIdAndUserId = async (req, res) => {
+  const articleId = req.params.articleId;
+  const payload = req.body;
+
+  await likeService.deleteByArticleIdAndUserId(articleId, payload.userId);
+
+  responseHelper.ok(res);
+};
+
 likeController.create = create;
 likeController.getByArticleId = getByArticleId;
+likeController.deleteByArticleIdAndUserId = deleteByArticleIdAndUserId;
 
 module.exports = likeController;
