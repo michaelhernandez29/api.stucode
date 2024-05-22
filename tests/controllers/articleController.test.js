@@ -29,7 +29,7 @@ beforeEach(async () => {
 
 const getArticleData = (userId = null) => {
   return {
-    userId: userId ?? '111111111',
+    userId: userId ?? 111111111,
     title: 'Mi articulo',
     content: 'Mi contenido',
   };
@@ -108,7 +108,7 @@ describe('GET /article/{id}', () => {
   }, 20000);
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
-    const id = '111111111';
+    const id = 111111111;
 
     const response = await request(app).get(`/v1/article/${id}`);
 
@@ -136,7 +136,7 @@ describe('PUT /article/{id}', () => {
   }, 20000);
 
   it("should respond with 404 Not Found if the article doesn't exist", async () => {
-    const id = '111111111';
+    const id = 111111111;
 
     const articleData = getArticleData(id);
     const response = await request(app).put(`/v1/article/${id}`).send(articleData);
