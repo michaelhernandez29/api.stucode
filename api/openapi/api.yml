@@ -557,7 +557,7 @@ paths:
               type: object
               properties:
                 userId:
-                  type: string
+                  type: integer
                   description: The user's Id.
                 image:
                   type: string
@@ -642,7 +642,7 @@ paths:
           description: The user's Id.
           required: false
           schema:
-            type: string
+            type: integer
         - name: page
           in: query
           description: The page number for pagination.
@@ -838,7 +838,7 @@ paths:
               type: object
               properties:
                 userId:
-                  type: string
+                  type: integer
                   description: The user's Id.
                 image:
                   type: string

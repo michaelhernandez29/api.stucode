@@ -167,7 +167,7 @@ describe('GET /user/{id}', () => {
   }, 20000);
 
   it("should respond with 404 Not Found if the user doesn't exist", async () => {
-    const id = '11111111-1111-1111-1111-111111111111';
+    const id = 111111111;
 
     const response = await request(app).get(`/v1/user/${id}`);
 
@@ -201,7 +201,7 @@ describe('PUT /user/{id}', () => {
   }, 20000);
 
   it("should respond with 404 Not Found if the user doesn't exist", async () => {
-    const id = '11111111-1111-1111-1111-111111111111';
+    const id = 111111111;
 
     const response = await request(app).put(`/v1/user/${id}`).send(newUserData);
 
@@ -223,7 +223,7 @@ describe('DELETE /user/{id}', () => {
   }, 20000);
 
   it("should respond with 404 Not Found if the user doesn't exist", async () => {
-    const id = '11111111-1111-1111-1111-111111111111';
+    const id = '111111111';
 
     const response = await request(app).delete(`/v1/user/${id}`);
 
