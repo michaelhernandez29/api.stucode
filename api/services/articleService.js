@@ -32,7 +32,7 @@ const findAllWithCount = async (filters) => {
 
   const where = {};
   if (userId) {
-    where.userId = Number.parseInt(userId, 10);
+    where.userId = userId;
   }
   if (find) {
     where.OR = [

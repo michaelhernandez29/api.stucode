@@ -972,7 +972,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
-  /like/{id}:
+  /like/{articleId}:
     post:
       tags: [like]
       summary: Create a like for a specific article.
@@ -980,7 +980,7 @@ paths:
       x-eov-operation-handler: likeController
       operationId: create
       parameters:
-        - name: id
+        - name: articleId
           in: path
           description: The article's id.
           required: true
@@ -1009,7 +1009,7 @@ paths:
                     type: integer
                     format: int64
                     description: HTTP status code indicating success.
-                    default: 200
+                    default: 201
                   message:
                     type: string
                     description: Descriptive message of the success.
@@ -1051,6 +1051,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+    get:
+      tags: [like]
+      summary: Retrieve likes by article ID.
+      description: This endpoint retrieves likes associated with a specific article by providing the article's ID in the path parameter.
+      x-eov-operation-handler: likeController
+      operationId: getByArticleId
+      parameters:
+        - name: articleId
+          in: path
+          description: The article's id.
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    format: int64
+                    description: HTTP status code indicating success.
+                    default: 200
+                  message:
+                    type: string
+                    description: Descriptive message of the success.
+                  count:
+                    type: integer
+                    format: int64
+                    description: Total count of the results.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Like'
 
 components:
   schemas:
