@@ -417,6 +417,7 @@ paths:
                 logo:
                   type: string
                   description: The user's logo URL.
+                  nullable: true
               additionalProperties: false
       responses:
         200:
@@ -845,6 +846,7 @@ paths:
                 image:
                   type: string
                   description: The article's image.
+                  nullable: true
                 title:
                   type: string
                   description: The article's title.
