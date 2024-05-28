@@ -43,7 +43,6 @@ const getByArticleId = async (req, res) => {
 const deleteByArticleIdAndUserId = async (req, res) => {
   const articleId = req.params.articleId;
   const payload = req.body;
-  console.log(payload);
 
   await likeService.deleteByArticleIdAndUserId(articleId, payload.userId);
 
