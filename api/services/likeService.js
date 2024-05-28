@@ -22,10 +22,8 @@ const create = async (data) => {
 const findAllByArticleIdWithCount = async (articleId, userId) => {
   const likes = await prisma.like.findMany({
     where: {
-      article: {
-        id: articleId,
-        userId,
-      },
+      articleId,
+      userId,
     },
   });
 
