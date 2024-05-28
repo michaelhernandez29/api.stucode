@@ -16,13 +16,15 @@ const create = async (data) => {
 /**
  * Finds all likes with count by article ID.
  * @param {number} articleId - The ID of the article to find likes for.
+ * @param {number} userId - The ID of the user to find likes for.
  * @returns {Promise<Object>} A promise that resolves to an object containing count and likes data.
  */
-const findAllByArticleIdWithCount = async (articleId) => {
+const findAllByArticleIdWithCount = async (articleId, userId) => {
   const likes = await prisma.like.findMany({
     where: {
       article: {
         id: articleId,
+        userId,
       },
     },
   });
