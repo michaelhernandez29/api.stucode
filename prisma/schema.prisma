@@ -40,7 +40,7 @@ model Article {
   content   String
 
   @@map(name: "articles")
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   likes     Like[]
 }
 
@@ -51,8 +51,8 @@ model Like {
   userId    Int      @db.Integer
   articleId Int      @db.Integer
 
-  user      User     @relation(fields: [userId], references: [id])
-  article   Article  @relation(fields: [articleId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
   @@unique([userId, articleId])
   @@map(name: "likes")

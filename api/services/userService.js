@@ -86,6 +86,7 @@ const updateById = async (id, data) => {
  * @returns {Promise<void>} A promise that resolves when the user is successfully deleted.
  */
 const deleteById = async (id) => {
+  console.log(id);
   return await prisma.user.delete({
     where: { id },
   });
