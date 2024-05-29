@@ -55,9 +55,9 @@ const deleteByArticleIdAndUserId = async (req, res) => {
  * @param {Response} res - The response object.
  */
 const getByUserId = async (req, res) => {
-  const userId = req.query.userId;
+  const filters = req.query;
 
-  const response = await likeService.findAllByUserIdWithCount(userId);
+  const response = await likeService.findAllByUserIdWithCount(filters);
 
   responseHelper.ok(res, response.likes, response.count);
 };

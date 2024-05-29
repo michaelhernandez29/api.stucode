@@ -1187,6 +1187,47 @@ paths:
           required: true
           schema:
             type: integer
+        - name: page
+          in: query
+          description: The page number for pagination.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: limit
+          in: query
+          description: The limit of results per page.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 20
+        - name: find
+          in: query
+          description: A search term to filter results.
+          required: false
+          schema:
+            type: string
+          allowReserved: true
+        - name: orderBy
+          in: query
+          description: >
+            Order of the results: 
+              
+              - a-z - Order by title ascending. From A to Z
+              - z-a - Order by title descending. From Z to A
+              - updated-at-asc - Orders results by ascending update date. Oldest articles first.
+              - updated-at-desc - Orders results by descending update date. Newest articles first.
+          required: false
+          schema:
+            type: string
+            enum:
+              - a-z
+              - z-a
+              - updated-at-asc
+              - updated-at-desc
+            default: a-z
       responses:
         200:
           description: OK
