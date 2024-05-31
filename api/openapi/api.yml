@@ -38,10 +38,6 @@ tags:
     description: Endpoints related to creation, retrieval, and management of articles.
   - name: like
     description: Endpoints related to management of likes on posts and comments.
-  - name: comment
-    description: Endpoints related to creation, retrieval, and management of comments.
-  - name: follow
-    description: Endpoints related to user following and management of follow relationships.
 paths:
   /user/register:
     post:
@@ -1438,6 +1434,11 @@ components:
         logo:
           type: string
           description: The user's logo URL.
+        followers:
+          type: array
+          description: Array of user's ID followers
+          items:
+            type: integer
       required:
         - id
         - name
