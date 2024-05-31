@@ -51,8 +51,6 @@ const findAllByUserIdWithCount = async (filters) => {
   const skip = page * limit;
   let orderByClause;
 
-  console.log('find', find);
-
   const where = {};
   if (userId) {
     where.userId = userId;

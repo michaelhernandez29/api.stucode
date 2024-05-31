@@ -414,6 +414,11 @@ paths:
                   type: string
                   description: The user's logo URL.
                   nullable: true
+                followers:
+                  type: array
+                  description: Array of user's ID followers
+                  items:
+                    type: integer
               additionalProperties: false
       responses:
         200:
