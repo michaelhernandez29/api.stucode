@@ -86,6 +86,16 @@ const updateById = async (id, data) => {
  * @returns {Promise<void>} A promise that resolves when the user is successfully deleted.
  */
 const deleteById = async (id) => {
+  const users = await userService.findAllWithCount(null);
+  users.forEach(async (user) => {
+    const idToRemove = Number.parseInt(id, 10);
+    if (user.followers.includes(idToRemove)) {
+      user.followers = user.followers.filter((followerId) => followerId !== idToRemove);
+    }
+
+    await userService.updateById(user.id, { followers: user.followers });
+  });
+
   return await prisma.user.delete({
     where: { id },
   });
