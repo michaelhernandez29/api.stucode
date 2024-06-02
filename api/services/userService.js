@@ -87,7 +87,7 @@ const updateById = async (id, data) => {
  */
 const deleteById = async (id) => {
   const users = await userService.findAllWithCount({ page: 0, limit: 20, orderBy: 'a-z', find: null });
-  users.forEach(async (user) => {
+  users.data.forEach(async (user) => {
     const idToRemove = Number.parseInt(id, 10);
     if (user.followers.includes(idToRemove)) {
       user.followers = user.followers.filter((followerId) => followerId !== idToRemove);
